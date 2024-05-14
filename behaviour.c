@@ -6,16 +6,16 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:27:05 by jholland          #+#    #+#             */
-/*   Updated: 2024/05/03 16:28:52 by jholland         ###   ########.fr       */
+/*   Updated: 2024/05/14 18:52:38 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "philo.h"
 
-void	try_to_eat()
+/* void	try_to_eat()
 {
 	if (forks_available())
 		i_eat();
 	else
 		i_die();
-}
+} */

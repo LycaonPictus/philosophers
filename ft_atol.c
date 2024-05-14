@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:31:32 by jholland          #+#    #+#             */
-/*   Updated: 2024/05/06 14:50:52 by jholland         ###   ########.fr       */
+/*   Updated: 2024/05/14 18:57:37 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ long	ft_atol(char *str, int *error)
 	return (n);
 }
 
-#include <stdio.h>
+/* #include <stdio.h>
 int	main(int argc, char **argv)
 {
 	int error;
 	if (argc == 2)
 		printf("%li\n", ft_atol(argv[1], &error));
 	printf("%i\n", error);
-}
+} */
