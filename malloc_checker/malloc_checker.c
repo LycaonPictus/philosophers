@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   allocations.c                                      :+:      :+:    :+:   */
+/*   malloc_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:24:29 by jholland          #+#    #+#             */
-/*   Updated: 2024/05/14 23:32:07 by jholland         ###   ########.fr       */
+/*   Updated: 2024/05/15 22:29:52 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mem_checker.h"
+#include "malloc_checker.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 static t_memlist	*add_node(t_memlist **list, void *ptr, const char *comment)
 {
@@ -35,14 +37,6 @@ static t_memlist	*add_node(t_memlist **list, void *ptr, const char *comment)
 	return (new);
 }
 
-/**
- * @brief Allocates memory with malloc(size) and saves the reference in a new last node of a list where it can be tracked using print_allocs
- * 
- * @param list Reference of the list in which the new pointer will be attached
- * @param size Byte-size that will be allocatedd with malloc
- * @param comment Hint comment to display on tracking
- * @return void* 
- */
 void	*mymalloc(t_memlist **list, unsigned int size, const char *comment)
 {
 	void		*ptr;
@@ -57,11 +51,6 @@ void	*mymalloc(t_memlist **list, unsigned int size, const char *comment)
 	return (new->ptr);
 }
 
-/**
- * @brief Tracks the status of all memory allocation and freeings set by the myalloc and my free functions, including references, sizes and hint comments
- * 
- * @param list 
- */
 void	print_allocs(t_memlist *list)
 {
 	while (list)
@@ -81,12 +70,6 @@ void	print_allocs(t_memlist *list)
 	}
 }
 
-static void	free_ptr(t_memlist *node)
-{
-	free(node->ptr);
-	node->freed = 1;
-}
-
 void	myfree(t_memlist **list, void *ptr)
 {
 	t_memlist	*last_freed;
@@ -100,7 +83,8 @@ void	myfree(t_memlist **list, void *ptr)
 		{
 			if (node->freed == 0)
 			{
-				free_ptr(node);
+				free(node->ptr);
+				node->freed = 1;
 				return ;
 			}
 			else if (node->freed == 1)
@@ -111,7 +95,24 @@ void	myfree(t_memlist **list, void *ptr)
 	if (last_freed)
 		last_freed->freed = 2;
 	else if (ptr)
-		add_node(list, ptr, "???");
+		add_node(list, ptr, ptr ? "???" : "SAFE FREE");
 	else
 		add_node(list, ptr, "SAFE FREE");
+}
+
+void	clear_alloc_list(t_memlist **list)
+{
+	t_memlist	*node;
+	t_memlist	*next;
+
+	node = *list;
+	if (!node)
+		return ;
+	while (node)
+	{
+		next = node->next;
+		free(node);
+		node = next;
+	}
+	*list = NULL;
 }

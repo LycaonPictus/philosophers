@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:31:32 by jholland          #+#    #+#             */
-/*   Updated: 2024/05/14 18:57:37 by jholland         ###   ########.fr       */
+/*   Updated: 2024/05/15 20:06:08 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	check_nan(char *str, int *error)
 		}
 }
 
-static void	add_cipher_int(long *n, char cipher, int sign, int *error)
+static void	add_cipher_long(long *n, char cipher, int sign, int *error)
 {
 	unsigned int	i;
 	long			result;
