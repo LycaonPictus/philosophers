@@ -10,6 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "str2num.h"
+
+static void	skip_spaces(char **ptr)
+{
+	char	*str;
+	char	c;
+
+	str = *ptr;
+	c = *str;
+	while (c == ' ' || c == '\t' || c == '\r' || c == '\n' || c == '\v' || c == '\f')
+	{
+		str++;
+		c = *str;
+	}
+	*ptr = str;
+}
+
 static int	get_sign(char **str)
 {
 	if (**str == '-')
@@ -22,55 +39,57 @@ static int	get_sign(char **str)
 	return (1);
 }
 
-static void	check_nan(char *str, int *error)
+static void	check_nan(char *str, t_str2num_status *error)
 {
-	if (error)
-		while (*str)
-		{
-			if (*str < '0' || *str > '9')
-				*error = 2;
-			str++;
-		}
+	if (error && *str)
+		*error = NAN;
 }
 
-static void	add_cipher_int(int *n, char cipher, int sign, int *error)
+static void	check_int_overflow(int orig, int new, t_str2num_status *error)
 {
-	unsigned int	i;
-	int				result;
+	if (error && *error == OK && ((orig < 0 && new > 0) || (orig > 0 && new < 0)))
+		*error = OVERFLOW;
+}
 
+static void	add_cipher_int(int *ptr, char cipher, int sign, t_str2num_status *error)
+{
+	int				number;
+	int				result;
+	unsigned int	i;
+
+	number = *ptr;
+	result = number;
 	i = 0;
-	result = *n;
 	while (i < 9)
 	{
-		result += *n;
-		if (error && ((sign < 0 && result > 0) || (sign > 0 && result < 0)))
-			*error = 1;
+		result += number;
+		check_int_overflow(number, result, error);
 		i++;
 	}
 	result += sign * (cipher - '0');
-	if ((error && (*n < 0 && result > 0) || (*n > 0 && result < 0)))
-		*error = 1;
-	*n = result;
+	check_int_overflow(number, result, error);
+	*ptr = result;
 }
 
-int	ft_atoi(char *str, int *error)
+int	ft_atoi(char *str, t_str2num_status *error)
 {
-	int	n;
+	int	output;
 	int	sign;
 
 	if (error)
-		*error = 0;
+		*error = OK;
 	if (!str)
 	{
-		*error = 3;
+		if (error)
+			*error = NULLSTR;
 		return (0);
 	}
-	while (*str == ' ')
-		str++;
+	skip_spaces(&str);
 	sign = get_sign(&str);
-	n = 0;
+	output = 0;
 	while (*str >= '0' && *str <= '9')
-		add_cipher_int(&n, *(str++), sign, error);
+		add_cipher_int(&output, *(str++), sign, error);
+	skip_spaces(&str);
 	check_nan(str, error);
-	return (n);
+	return (output);
 }

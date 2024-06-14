@@ -10,6 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "str2num.h"
+
+static void	skip_spaces(char **ptr)
+{
+	char	*str;
+	char	c;
+
+	str = *ptr;
+	c = *str;
+	while (c == ' ' || c == '\t' || c == '\r' || c == '\n' || c == '\v' || c == '\f')
+	{
+		str++;
+		c = *str;
+	}
+	*ptr = str;
+}
+
 static int	get_sign(char **str)
 {
 	if (**str == '-')
@@ -22,64 +39,57 @@ static int	get_sign(char **str)
 	return (1);
 }
 
-static void	check_nan(char *str, int *error)
+static void	check_nan(char *str, t_str2num_status *error)
 {
-	if (error)
-		while (*str)
-		{
-			if (*str < '0' || *str > '9')
-				*error = 2;
-			str++;
-		}
+	if (error && *str)
+		*error = NAN;
 }
 
-static void	add_cipher_long(long *n, char cipher, int sign, int *error)
+static void	check_long_overflow(long orig, long new, t_str2num_status *error)
 {
-	unsigned int	i;
+	if (error && *error == OK && ((orig < 0 && new > 0) || (orig > 0 && new < 0)))
+		*error = OVERFLOW;
+}
+#include <stdio.h>
+static void	add_cipher_long(long *ptr, char cipher, int sign, t_str2num_status *error)
+{
+	long			number;
 	long			result;
+	unsigned int	i;
 
 	i = 0;
-	result = *n;
+	number = *ptr;
+	result = number;
 	while (i < 9)
 	{
-		result += *n;
-		if (error && ((sign < 0 && result > 0) || (sign > 0 && result < 0)))
-			*error = 1;
+		result += number;
+		check_long_overflow(number, result, error);
 		i++;
 	}
-	result += sign * (cipher - '0');
-	if ((error && (*n < 0 && result > 0) || (*n > 0 && result < 0)))
-		*error = 1;
-	*n = result;
+	result += sign * (long)(cipher - '0');
+	check_long_overflow(number, result, error);
+	*ptr = result;
 }
 
-long	ft_atol(char *str, int *error)
+long	ft_atol(char *str, t_str2num_status *error)
 {
-	long	n;
+	long	output;
 	int		sign;
 
 	if (error)
-		*error = 0;
+		*error = OK;
 	if (!str)
 	{
-		*error = 3;
+		if (error)
+			*error = NULLSTR;
 		return (0);
 	}
-	while (*str == ' ')
-		str++;
+	skip_spaces(&str);
 	sign = get_sign(&str);
-	n = 0;
+	output = 0;
 	while (*str >= '0' && *str <= '9')
-		add_cipher_int(&n, *(str++), sign, error);
+		add_cipher_long(&output, *(str++), sign, error);
+	skip_spaces(&str);
 	check_nan(str, error);
-	return (n);
+	return (output);
 }
-
-/* #include <stdio.h>
-int	main(int argc, char **argv)
-{
-	int error;
-	if (argc == 2)
-		printf("%li\n", ft_atol(argv[1], &error));
-	printf("%i\n", error);
-} */
