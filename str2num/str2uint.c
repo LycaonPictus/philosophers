@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_atou.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/03 16:31:32 by jholland          #+#    #+#             */
-/*   Updated: 2024/05/05 02:19:41 by jholland         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "str2num.h"
 
 static void	skip_spaces(char **ptr)
@@ -39,7 +27,7 @@ static void	check_nan(char *str, t_str2num_status *error)
 		*error = NAN;
 }
 
-static void	check_uint_overflow(int orig, int new, t_str2num_status *error)
+static void	check_uint_overflow(unsigned int orig, unsigned int new, t_str2num_status *error)
 {
 	if (error && (*error == OK) && (orig > new))
 		*error = OVERFLOW;
@@ -65,7 +53,7 @@ static void	add_cipher_uint(unsigned int *ptr, char cipher, t_str2num_status *er
 	*ptr = result;
 }
 
-unsigned int	ft_atou(char *str, t_str2num_status *error)
+unsigned int	str2uint(char *str, t_str2num_status *error)
 {
 	unsigned int	output;
 

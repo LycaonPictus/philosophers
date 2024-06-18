@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/03 16:31:32 by jholland          #+#    #+#             */
-/*   Updated: 2024/05/06 14:32:00 by jholland         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "str2num.h"
 
 static void	skip_spaces(char **ptr)
@@ -71,7 +59,7 @@ static void	add_cipher_int(int *ptr, char cipher, int sign, t_str2num_status *er
 	*ptr = result;
 }
 
-int	ft_atoi(char *str, t_str2num_status *error)
+int	str2int(char *str, t_str2num_status *error)
 {
 	int	output;
 	int	sign;

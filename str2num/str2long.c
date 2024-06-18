@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_atol.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/03 16:31:32 by jholland          #+#    #+#             */
-/*   Updated: 2024/05/15 20:06:08 by jholland         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "str2num.h"
 
 static void	skip_spaces(char **ptr)
@@ -50,7 +38,7 @@ static void	check_long_overflow(long orig, long new, t_str2num_status *error)
 	if (error && *error == OK && ((orig < 0 && new > 0) || (orig > 0 && new < 0)))
 		*error = OVERFLOW;
 }
-#include <stdio.h>
+
 static void	add_cipher_long(long *ptr, char cipher, int sign, t_str2num_status *error)
 {
 	long			number;
@@ -66,12 +54,13 @@ static void	add_cipher_long(long *ptr, char cipher, int sign, t_str2num_status *
 		check_long_overflow(number, result, error);
 		i++;
 	}
-	result += sign * (long)(cipher - '0');
+	result += sign * (cipher - '0');
 	check_long_overflow(number, result, error);
 	*ptr = result;
 }
+#include <limits.h>
 
-long	ft_atol(char *str, t_str2num_status *error)
+long	str2long(char *str, t_str2num_status *error)
 {
 	long	output;
 	int		sign;
