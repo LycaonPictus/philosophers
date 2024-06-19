@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:30:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/19 19:12:20 by jholland         ###   ########.fr       */
+/*   Updated: 2024/06/19 22:56:52 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ void	check_args(int argc, char **argv)
 	}
 }
 
-void	do_something(void *ptr)
+void	*do_something(void *ptr)
 {
-	dprintf(debugfd, "I'm doing something\n");
+	dprintf(debugfd, "I'm doing something with this pointer (%p)\n", ptr);
+	return (NULL);
 }
 
 int	main(int argc, char **argv)
@@ -43,7 +44,8 @@ int	main(int argc, char **argv)
 	debugfd = open("_debug", O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	check_args(argc, argv);
 	set_time(&table.start_time);
-	pthread_create(&a, NULL, do_something, NULL);
+	pthread_create(&a, NULL, do_something, (void *)&table);
+	pthread_join(a, NULL);
 	exit_fn(0, "End of program.\n");
 	return (0);
 }

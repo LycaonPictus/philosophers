@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/19 18:59:05 by jholland         ###   ########.fr       */
+/*   Updated: 2024/06/19 22:43:04 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <sys/time.h>
 # include <pthread.h>
 #include "libft/libft.h" //
+// Delete dprintf's
 
 extern int	debugfd;
 
