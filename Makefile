@@ -1,5 +1,5 @@
 NAME = philo
-SRC = philo.c prints.c ft_strlen.c
+SRC = philo.c prints.c timereg.c
 OBJ = $(SRC:.c=.o)
 COMPILER = gcc
 OPTIONS = -Wall -Werror -Wextra
@@ -7,8 +7,8 @@ OPTIONS = -Wall -Werror -Wextra
 
 all: $(NAME)
 
-$(NAME):
-	@$(COMPILER) $(OPTIONS) -o $(NAME) $(SRC)
+$(NAME): $(SRC)
+	@$(COMPILER) $(OPTIONS) -o $(NAME) $(SRC) libft/*.c
 
 clean:
 	@rm -rf $(OBJ)
