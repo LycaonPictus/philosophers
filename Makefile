@@ -1,8 +1,8 @@
 NAME = philo
-SRC = philo.c prints.c timereg.c parse_args.c exit_fn.c
+SRC = philo.c prints.c timereg.c parse_args.c exit_fn.c behaviour.c
 OBJ = $(SRC:.c=.o)
 COMPILER = gcc
-OPTIONS = -Wall -Werror -Wextra
+OPTIONS = -Wall -Werror -Wextra -g
 
 
 all: $(NAME)

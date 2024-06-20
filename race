@@ -1,0 +1,1 @@
+valgrind --tool=helgrind -s ./philo 5 400 200 200
