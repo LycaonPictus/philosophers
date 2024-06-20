@@ -8,7 +8,7 @@ OPTIONS = -Wall -Werror -Wextra
 all: $(NAME)
 
 $(NAME): $(SRC)
-	@$(COMPILER) $(OPTIONS) -o $(NAME) $(SRC) libft/*.c
+	@$(COMPILER) $(OPTIONS) -o $(NAME) $(SRC) libft/*.c str2num/str2ushort.c
 
 clean:
 	@rm -rf $(OBJ)

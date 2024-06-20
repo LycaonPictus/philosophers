@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   timereg.c                                          :+:      :+:    :+:   */
+/*   str2num.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/19 17:01:28 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/20 15:15:39 by jholland         ###   ########.fr       */
+/*   Created: 2024/06/20 15:13:26 by jholland          #+#    #+#             */
+/*   Updated: 2024/06/20 16:02:39 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/philo.h"
+#ifndef STR2NUM_H
+# define STR2NUM_H
 
-int	set_time(struct timeval *time)
+typedef enum	e_str2num_status
 {
-	int	time_error;
+	OK,
+	NULLSTR,
+	EMPTYSTR,
+	OVERFLOW,
+	NAN
+}	t_str2num_status;
 
-	time_error = gettimeofday(time, NULL);
-	if (time_error)
-	{
-		dprintf(debugfd, "Failure setting the time\n");
-		return (0);
-	}
-	else
-	{
-		dprintf(debugfd, "Success setting the time\n");
-		return (1);
-	}
-}
+unsigned short	str2ushort(char *str, t_str2num_status *error);
+
+#endif
