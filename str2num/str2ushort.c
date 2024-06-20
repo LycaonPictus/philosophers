@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:11:25 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/20 16:02:00 by jholland         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:38:54 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ unsigned short	str2ushort(char *str, t_str2num_status *error)
 		return (0);
 	}
 	skip_spaces(&str);
-	if (*str == '+')
-		str += 1;
 	if (!*str)
 		*error = EMPTYSTR;
+	if (*str == '+')
+		str += 1;
 	output = 0;
 	while (*str >= '0' && *str <= '9')
 		add_cipher_ushort(&output, *(str++), error);

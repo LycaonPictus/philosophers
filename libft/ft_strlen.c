@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:43:50 by jholland          #+#    #+#             */
-/*   Updated: 2024/05/03 14:52:20 by jholland         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:41:44 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@ unsigned int	ft_strlen(char *str)
 		return (0);
 	len = 0;
 	while (str[len])
-	len++;
+		len++;
 	return (len);
 }

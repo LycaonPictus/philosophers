@@ -1,5 +1,5 @@
 NAME = philo
-SRC = philo.c prints.c timereg.c
+SRC = philo.c prints.c timereg.c parse_args.c exit_fn.c
 OBJ = $(SRC:.c=.o)
 COMPILER = gcc
 OPTIONS = -Wall -Werror -Wextra
@@ -12,6 +12,7 @@ $(NAME): $(SRC)
 
 clean:
 	@rm -rf $(OBJ)
+	@rm -rf _debug
 
 fclean: clean
 	@rm $(NAME)

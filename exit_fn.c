@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   exit_fn.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/29 21:29:11 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/20 16:41:26 by jholland         ###   ########.fr       */
+/*   Created: 2024/06/20 16:51:48 by jholland          #+#    #+#             */
+/*   Updated: 2024/06/20 16:52:21 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#include "inc/philo.h"
+extern int	debugfd;
 
-# include <unistd.h>
-
-void			ft_putchar_fd(char c, int fd);
-void			ft_putstr_fd(char *s, int fd);
-void			ft_putendl_fd(char *s, int fd);
-void			ft_putnbr_fd(int n, int fd);
-unsigned int	ft_strlen(char *str);
-
-#endif
+void	exit_fn(int code, char *message)
+{
+	if (message)
+		ft_putstr_fd(message, debugfd);
+	dprintf(debugfd, "Exit with code %i.\n", code);
+	close(debugfd);
+	exit(code);
+}
