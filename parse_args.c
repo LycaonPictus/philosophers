@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:47:42 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/20 16:49:17 by jholland         ###   ########.fr       */
+/*   Updated: 2024/06/23 01:31:51 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ void	parse_args(int argc, char **argv, t_rules *rules)
 	parse_ushort(argv[2], &rules->time_to_die);
 	parse_ushort(argv[3], &rules->time_to_eat);
 	parse_ushort(argv[4], &rules->time_to_sleep);
+	if (rules->time_to_sleep >= rules->time_to_die)
+		rules->first_event_time = rules->time_to_die;
+	else
+		rules->first_event_time = rules->time_to_sleep;
 	if (argc == 6)
 		parse_ushort(argv[5], &rules->num_meals);
 	else

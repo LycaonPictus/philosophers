@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:30:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/20 23:34:32 by jholland         ###   ########.fr       */
+/*   Updated: 2024/06/23 01:47:59 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	*do_something(void *ptr)
 	return (ptr);
 }
 
-void	create_phils(t_rules *rules, pthread_t *tid)
+t_philo	*create_phils(t_rules *rules, pthread_t *tid)
 {
 	unsigned int	i;
 	t_philo			*ph;
@@ -43,12 +43,12 @@ void	create_phils(t_rules *rules, pthread_t *tid)
 			ph[i].left_fork = &rules->forks[i - 1];
 		if (pthread_create(&tid[i], NULL, do_something, &ph[i]))
 		{
-			free(tid);
 			write(2, "Error: pthread failure.\n", 24);
+			return (NULL);
 		}
 		i++;
 	}
-	free(ph);
+	return (ph);
 }
 
 void	init_table(t_rules	*rules)
@@ -67,17 +67,20 @@ void	init_table(t_rules	*rules)
 
 int	main(int argc, char **argv)
 {
+	int			i;
 	t_rules		rules;
 	pthread_t	*tid;
+	t_philo		*ph;
 
 	debugfd = open("_debug", O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	parse_args(argc, argv, &rules);
 	tid = malloc(sizeof(pthread_t) * rules.num_phil);
 	init_table(&rules);
-	create_phils(&rules, tid);
-	int i = 0;
+	ph = create_phils(&rules, tid);
+	i = 0;
 	while (i < rules.num_phil)
 		pthread_join(tid[i++], NULL);
+	free (ph);
 	free(tid);
 	free(rules.forks);
 	dprintf(debugfd, "End of program.\n");

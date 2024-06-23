@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/20 23:32:10 by jholland         ###   ########.fr       */
+/*   Updated: 2024/06/23 01:59:58 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_rules
 	unsigned short	time_to_die;
 	unsigned short	time_to_eat;
 	unsigned short	time_to_sleep;
+	unsigned short	first_event_time;
 	unsigned short	num_meals;
 	int				*forks;
 	int				phil_ok;
@@ -42,6 +43,7 @@ typedef struct s_philo
 	t_rules			*rules;
 	int				*left_fork;
 	int				*right_fork;
+	struct timeval	last_thinking;
 	struct timeval	last_food;
 	unsigned int	meals;
 }	t_philo;
