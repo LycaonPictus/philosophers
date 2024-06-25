@@ -3,7 +3,7 @@ SRC_FILES = philo.c prints.c timereg.c parse_args.c exit_fn.c ph_eat.c ph_sleep.
 SRC_FOLDER = $(addprefix src/,$(SRC_FILES))
 OBJ = $(addprefix obj/,$(SRC_FILES)) #$(SRC_FOLDER:.c=.o)
 COMPILER = gcc
-OPTIONS = -Wall -Werror -Wextra -g
+OPTIONS = -Wall -Werror -Wextra #-fsanitize=address
 
 all: $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:30:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/25 21:22:02 by jholland         ###   ########.fr       */
+/*   Updated: 2024/06/26 00:20:38 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,13 @@ t_philo	*create_phils(t_rules *rules, pthread_t *tid)
 			write(2, "Error: pthread failure.\n", 24);
 			return (NULL);
 		}
+		if (i == 0)
+			pthread_mutex_lock(&rules->mutex);
+		else if (i == (unsigned int)(rules->num_phil - 1))
+		{
+			set_time(&rules->start_time);
+			pthread_mutex_unlock(&rules->mutex);
+		}
 		i++;
 	}
 	return (ph);
@@ -63,7 +70,6 @@ void	init_table(t_rules	*rules)
 	i = 0;
 	while (i < rules->num_phil)
 		rules->forks[i++] = 0;
-	set_time(&rules->start_time);
 }
 
 int	main(int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:05:07 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/25 21:25:44 by jholland         ###   ########.fr       */
+/*   Updated: 2024/06/25 23:53:35 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	ph_eat(t_philo *ph)
 {
 	unsigned int	time_eating;
 	struct timeval	now;
-
 	pthread_mutex_lock(&ph->rules->mutex);
 	if (check_deaths(ph))
 	{
