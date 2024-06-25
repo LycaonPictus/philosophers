@@ -6,12 +6,12 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:47:42 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/23 01:31:51 by jholland         ###   ########.fr       */
+/*   Updated: 2024/06/25 21:21:41 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/str2num.h"
-#include "inc/philo.h"
+#include "../inc/str2num.h"
+#include "../inc/philo.h"
 
 extern int	debugfd;
 

@@ -1,14 +1,14 @@
 NAME = philo
-SRC = philo.c prints.c timereg.c parse_args.c exit_fn.c behaviour.c
-OBJ = $(SRC:.c=.o)
+SRC_FILES = philo.c prints.c timereg.c parse_args.c exit_fn.c ph_eat.c ph_sleep.c ph_think.c check_deaths.c
+SRC_FOLDER = $(addprefix src/,$(SRC_FILES))
+OBJ = $(addprefix obj/,$(SRC_FILES)) #$(SRC_FOLDER:.c=.o)
 COMPILER = gcc
 OPTIONS = -Wall -Werror -Wextra -g
 
-
 all: $(NAME)
 
-$(NAME): $(SRC)
-	@$(COMPILER) $(OPTIONS) -o $(NAME) $(SRC) libft/*.c str2num/str2ushort.c
+$(NAME): $(SRC_FOLDER)
+	@$(COMPILER) $(OPTIONS) -o $(NAME) $(SRC_FOLDER) libft/*.c str2num/str2ushort.c
 
 clean:
 	@rm -rf $(OBJ)
