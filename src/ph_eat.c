@@ -27,6 +27,7 @@ void	ph_eat(t_philo *ph)
 {
 	unsigned int	time_eating;
 	struct timeval	now;
+
 	pthread_mutex_lock(&ph->rules->mutex);
 	if (check_deaths(ph))
 	{

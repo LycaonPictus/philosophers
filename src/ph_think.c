@@ -71,7 +71,7 @@ static void	wait_even(t_philo *ph)
 		{
 			pthread_mutex_unlock(&ph->rules->mutex);
 			usleep(100);
-			return ;
+			pthread_mutex_lock(&ph->rules->mutex);
 		}
 	}
 }

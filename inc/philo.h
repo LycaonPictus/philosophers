@@ -28,6 +28,7 @@ typedef struct s_rules
 {
 	struct timeval	start_time;
 	unsigned short	num_phil;
+	int				ready;
 	unsigned short	time_to_die;
 	unsigned short	time_to_eat;
 	unsigned short	time_to_sleep;

@@ -14,12 +14,45 @@
 
 int	debugfd;
 
+void	set_ready(t_philo *ph, t_rules *rules)
+{
+	pthread_mutex_lock(&rules->mutex);
+	if (ph->id == rules->num_phil)
+	{
+		set_time(&rules->start_time);
+		rules->ready = 1;
+	}
+	pthread_mutex_unlock(&rules->mutex);
+}
+
+void	wait_ready(t_rules *rules)
+{
+	pthread_mutex_lock(&rules->mutex);
+	while (!rules->ready)
+	{
+		pthread_mutex_unlock(&rules->mutex);
+		pthread_mutex_lock(&rules->mutex);
+	}
+	pthread_mutex_unlock(&rules->mutex);
+}
+
 void	*do_something(void *ptr)
 {
 	t_philo	*ph;
 
 	ph = ptr;
-	ph_think(ph);
+	set_ready(ph, ph->rules);
+	wait_ready(ph->rules);
+	ph->last_food = ph->rules->start_time;
+	ph->last_thinking = ph->rules->start_time;
+	pthread_mutex_lock(&ph->rules->mutex);
+	while (!ph->rules->exit_all)
+	{
+		pthread_mutex_unlock(&ph->rules->mutex);
+		ph_think(ph);
+		pthread_mutex_lock(&ph->rules->mutex);
+	}
+	pthread_mutex_unlock(&ph->rules->mutex);
 	return (ptr);
 }
 
@@ -35,7 +68,6 @@ t_philo	*create_phils(t_rules *rules, pthread_t *tid)
 		ph[i].rules = rules;
 		ph[i].id = i + 1;
 		ph[i].meals = 0;
-		ph[i].last_food = rules->start_time;
 		ph[i].right_fork = &rules->forks[i];
 		ph[i].try_again = 0;
 		if (i == 0)
@@ -46,13 +78,6 @@ t_philo	*create_phils(t_rules *rules, pthread_t *tid)
 		{
 			write(2, "Error: pthread failure.\n", 24);
 			return (NULL);
-		}
-		if (i == 0)
-			pthread_mutex_lock(&rules->mutex);
-		else if (i == (unsigned int)(rules->num_phil - 1))
-		{
-			set_time(&rules->start_time);
-			pthread_mutex_unlock(&rules->mutex);
 		}
 		i++;
 	}
@@ -65,6 +90,7 @@ void	init_table(t_rules	*rules)
 
 	rules->exit_all = 0;
 	rules->forks = malloc(sizeof(int) * rules->num_phil);
+	rules->ready = 0;
 	if (!rules->forks)
 		exit_fn(1, "Error allocating the forks.\n");
 	i = 0;
@@ -83,7 +109,8 @@ int	main(int argc, char **argv)
 	parse_args(argc, argv, &rules);
 	tid = malloc(sizeof(pthread_t) * rules.num_phil);
 	init_table(&rules);
-	pthread_mutex_init(&rules.mutex, NULL);
+	if (pthread_mutex_init(&rules.mutex, NULL))
+		dprintf(debugfd, "Init mutex failed.\n");
 	ph = create_phils(&rules, tid);
 	i = 0;
 	while (i < rules.num_phil)

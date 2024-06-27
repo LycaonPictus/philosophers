@@ -22,16 +22,11 @@ void	ph_sleep(t_philo *ph)
 		pthread_mutex_unlock(&ph->rules->mutex);
 		return ;
 	}
+	pthread_mutex_unlock(&ph->rules->mutex);
 	time_sleeping = delta_time(ph->last_food, current_time(ph->rules));
 	if (time_sleeping < ph->rules->time_to_sleep)
 	{
-		pthread_mutex_unlock(&ph->rules->mutex);
 		usleep(10);
 		ph_sleep(ph);
-	}
-	else
-	{
-		pthread_mutex_unlock(&ph->rules->mutex);
-		ph_think(ph);
 	}
 }
