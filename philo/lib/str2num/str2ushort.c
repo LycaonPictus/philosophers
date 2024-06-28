@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/str2num.h"
+#include "../../inc/str2num.h"
 
 static void	skip_spaces(char **ptr)
 {

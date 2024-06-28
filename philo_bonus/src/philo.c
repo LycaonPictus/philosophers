@@ -12,8 +12,6 @@
 
 #include "../inc/philo.h"
 
-int	debugfd;
-
 void	set_ready(t_philo *ph, t_rules *rules)
 {
 	pthread_mutex_lock(&rules->mutex);

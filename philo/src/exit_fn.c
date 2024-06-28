@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   exit_fn.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jholland <jholland@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 13:25:48 by jholland          #+#    #+#             */
-/*   Updated: 2023/12/05 13:47:54 by jholland         ###   ########.fr       */
+/*   Created: 2024/06/20 16:51:48 by jholland          #+#    #+#             */
+/*   Updated: 2024/06/25 21:17:36 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../inc/philo.h"
 
-void	ft_putendl_fd(char *s, int fd)
+	//valgrind --tool=helgrind -s ./philo 5 400 200 200
+void	exit_fn(int code, char *message)
 {
-	write (fd, s, ft_strlen(s));
-	write (fd, "\n", 1);
+	write(2, message, ft_strlen(message));
+	exit(code); //Quitar	
 }
