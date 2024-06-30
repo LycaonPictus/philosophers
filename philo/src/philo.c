@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:30:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/26 00:20:38 by jholland         ###   ########.fr       */
+/*   Updated: 2024/06/30 20:10:46 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	*do_something(void *ptr)
 	return (ptr);
 }
 
-t_philo	*create_phils(t_rules *rules, pthread_t *tid)
+t_philo	*create_phils(t_rules *rules)
 {
 	unsigned int	i;
 	t_philo			*ph;
@@ -72,7 +72,7 @@ t_philo	*create_phils(t_rules *rules, pthread_t *tid)
 			ph[i].left_fork = &rules->forks[rules->num_phil - 1];
 		else
 			ph[i].left_fork = &rules->forks[i - 1];
-		if (pthread_create(&tid[i], NULL, do_something, &ph[i]))
+		if (pthread_create(&ph[i].thread, NULL, do_something, &ph[i]))
 		{
 			write(2, "Error: pthread failure.\n", 24);
 			return (NULL);
@@ -100,21 +100,18 @@ int	main(int argc, char **argv)
 {
 	int				i;
 	t_rules			rules;
-	pthread_t		*tid;
 	t_philo			*ph;
 
 	parse_args(argc, argv, &rules);
-	tid = malloc(sizeof(pthread_t) * rules.num_phil);
 	init_table(&rules);
 	if (pthread_mutex_init(&rules.mutex, NULL))
 		write(2, "Init mutex failed.\n", 19);
-	ph = create_phils(&rules, tid);
+	ph = create_phils(&rules);
 	i = 0;
 	while (i < rules.num_phil)
-		pthread_join(tid[i++], NULL);
+		pthread_join(ph[i++].thread, NULL);
 	pthread_mutex_destroy(&rules.mutex);
 	free (ph);
-	free(tid);
 	free(rules.forks);
 	return (0);
 }

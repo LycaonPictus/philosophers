@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/25 21:23:26 by jholland         ###   ########.fr       */
+/*   Updated: 2024/06/30 20:08:16 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_rules
 typedef struct s_philo
 {
 	unsigned int	id;
+	pthread_t		thread;
 	t_rules			*rules;
 	int				*left_fork;
 	int				*right_fork;

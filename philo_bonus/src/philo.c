@@ -6,11 +6,12 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:30:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/26 00:20:38 by jholland         ###   ########.fr       */
+/*   Updated: 2024/06/30 21:11:17 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "../inc/philo_bonus.h"
+#include "../../philo/inc/philo.h"
 
 void	set_ready(t_philo *ph, t_rules *rules)
 {
@@ -23,7 +24,7 @@ void	set_ready(t_philo *ph, t_rules *rules)
 	pthread_mutex_unlock(&rules->mutex);
 }
 
-void	wait_ready(t_rules *rules)
+void	wait_ready(t_rules_b *rules)
 {
 	pthread_mutex_lock(&rules->mutex);
 	while (!rules->ready)
@@ -34,13 +35,9 @@ void	wait_ready(t_rules *rules)
 	pthread_mutex_unlock(&rules->mutex);
 }
 
-void	*do_something(void *ptr)
+void	*do_something(t_philo_b *ph)
 {
-	t_philo	*ph;
-
-	ph = ptr;
-	set_ready(ph, ph->rules);
-	wait_ready(ph->rules);
+	sem_wait(&ph->rules->semaphore);
 	ph->last_food = ph->rules->start_time;
 	ph->last_thinking = ph->rules->start_time;
 	pthread_mutex_lock(&ph->rules->mutex);
@@ -54,65 +51,58 @@ void	*do_something(void *ptr)
 	return (ptr);
 }
 
-t_philo	*create_phils(t_rules *rules, pthread_t *tid)
+t_philo	*create_phils(t_rules_b *rules)
 {
 	unsigned int	i;
-	t_philo			*ph;
+	t_philo_b		*ph;
+	pid_t			pid;
 
-	i = 0;
 	ph = malloc(sizeof(t_philo) * rules->num_phil);
+	i = 0;
 	while (i < rules->num_phil)
 	{
 		ph[i].rules = rules;
 		ph[i].id = i + 1;
 		ph[i].meals = 0;
-		ph[i].right_fork = &rules->forks[i];
-		ph[i].try_again = 0;
-		if (i == 0)
-			ph[i].left_fork = &rules->forks[rules->num_phil - 1];
-		else
-			ph[i].left_fork = &rules->forks[i - 1];
-		if (pthread_create(&tid[i], NULL, do_something, &ph[i]))
-		{
-			write(2, "Error: pthread failure.\n", 24);
-			return (NULL);
-		}
+		pid = fork();
+		if (pid != 0)
+			break ;
 		i++;
+	}
+	if (pid == 0)
+	{
+		i = 0;
+		while (i < rules->num_phil)
+			waitpid(ph[i++].process, NULL, 0);
+	}
+	else
+	{
+		ph[i].process = pid;
+		do_something(&ph[i]);
 	}
 	return (ph);
 }
 
-void	init_table(t_rules	*rules)
+void	init_table(t_rules_b	*rules)
 {
-	int	i;
-
 	rules->exit_all = 0;
-	rules->forks = malloc(sizeof(int) * rules->num_phil);
+	rules->semaphore = sem_open("sem", O_CREAT, 0600);
+	rules->forks = rules->num_phil;
 	rules->ready = 0;
-	if (!rules->forks)
-		exit_fn(1, "Error allocating the forks.\n");
-	i = 0;
-	while (i < rules->num_phil)
-		rules->forks[i++] = 0;
 }
 
 int	main(int argc, char **argv)
 {
 	int				i;
-	t_rules			rules;
-	pthread_t		*tid;
+	t_rules_b		rules;
 	t_philo			*ph;
 
 	debugfd = open("_debug", O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	parse_args(argc, argv, &rules);
-	tid = malloc(sizeof(pthread_t) * rules.num_phil);
 	init_table(&rules);
-	if (pthread_mutex_init(&rules.mutex, NULL))
-		dprintf(debugfd, "Init mutex failed.\n");
-	ph = create_phils(&rules, tid);
-	i = 0;
-	while (i < rules.num_phil)
-		pthread_join(tid[i++], NULL);
+	pids = malloc(sizeof(pthread_t) * rules.num_phil);
+	ph = create_phils(&rules, pids);
+	
 	pthread_mutex_destroy(&rules.mutex);
 	free (ph);
 	free(tid);
