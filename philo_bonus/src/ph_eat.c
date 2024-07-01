@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:05:07 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/01 04:27:38 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/01 23:21:26 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	end_and_sleep(t_philo_b *ph, struct timeval *now)
 	ph->meals++;
 	if (ph->rules->num_meals && ph->meals == ph->rules->num_meals)
 		ph->rules->completed_goals++;
-	sem_post(ph->rules->fork_sem);
+	sem_post(ph->fork_sem);
 	printf("%i %i is sleeping\n",
 		delta_time(ph->rules->start_time, *now), ph->id);
 	if (check_ending(ph))

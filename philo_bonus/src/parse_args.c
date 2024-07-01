@@ -6,21 +6,18 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:47:42 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/01 04:26:22 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/01 23:11:55 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../philo/inc/str2num.h"
 #include "../inc/philo_bonus.h"
 
-extern int	debugfd;
-
 void	parse_ushort(char *arg, unsigned short *ptr)
 {
 	t_str2num_status	err;
 
 	*ptr = str2ushort(arg, &err);
-	dprintf(debugfd, "Parsed a number: %u (err = %i)\n", *ptr, err);
 	if (err == OK && *ptr != 0)
 		return ;
 	write(2, "Parsing error: \"", 16);

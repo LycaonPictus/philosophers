@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:27:05 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/01 04:28:27 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/01 23:20:56 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static void	take_available_forks(t_philo_b *ph)
 	struct timeval	now;
 
 	now = current_time(ph->rules);
-	sem_wait(ph->rules->fork_sem);
 	ph_take_fork(ph);
 	ph_take_fork(ph);
 	start_eating(ph, &now);

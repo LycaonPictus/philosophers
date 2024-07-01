@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/01 04:26:01 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/01 23:11:33 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 # include <semaphore.h>
 # include <sys/wait.h>
 
-extern int	debugfd;
-
 typedef struct s_rules_b
 {
 	struct timeval	start_time;
@@ -36,19 +34,19 @@ typedef struct s_rules_b
 	unsigned short	num_meals;
 	unsigned short	completed_goals;
 	int				forks;
-	int				exit_all;
 	sem_t       	*semaphore;
-	sem_t       	*fork_sem;
+	int				exit_all;
 }	t_rules_b;
 
 typedef struct s_philo_b
 {
 	unsigned int	id;
-	pthread_t		process;
+	pid_t			proccess;
 	t_rules_b		*rules;
 	struct timeval	last_thinking;
 	struct timeval	last_food;
 	unsigned int	meals;
+	sem_t       	*fork_sem;
 }	t_philo_b;
 
 unsigned int	ft_strlen(char *str);

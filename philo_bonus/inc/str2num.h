@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ph_sleep.c                                         :+:      :+:    :+:   */
+/*   str2num.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 21:06:41 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/01 23:21:02 by jholland         ###   ########.fr       */
+/*   Created: 2024/06/20 15:13:26 by jholland          #+#    #+#             */
+/*   Updated: 2024/06/20 16:42:06 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../philo_bonus/inc/philo_bonus.h"
+#ifndef STR2NUM_H
+# define STR2NUM_H
 
-void	ph_sleep(t_philo_b *ph)
+typedef enum e_str2num_status
 {
-	unsigned int	time_sleeping;
+	OK,
+	NULLSTR,
+	EMPTYSTR,
+	OVERFLOW,
+	NAN
+}	t_str2num_status;
 
-	sem_wait(ph->fork_sem);
-	if (check_ending(ph))
-	{
-		sem_post(ph->fork_sem);
-		return ;
-	}
-	sem_post(ph->fork_sem);
-	time_sleeping = delta_time(ph->last_food, current_time(ph->rules));
-	if (time_sleeping < ph->rules->time_to_sleep)
-	{
-		usleep(10);
-		ph_sleep(ph);
-	}
-}
+unsigned short	str2ushort(char *str, t_str2num_status *error);
+
+#endif
