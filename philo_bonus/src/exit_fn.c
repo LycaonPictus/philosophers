@@ -6,11 +6,11 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:51:48 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/25 21:17:36 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/01 04:27:22 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "../inc/philo_bonus.h"
 
 extern int	debugfd;
 

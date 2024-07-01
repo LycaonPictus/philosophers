@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/30 20:08:16 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/01 04:29:08 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <fcntl.h>
 # include <sys/time.h>
 # include <pthread.h>
-# include "str2num.h"
 # include "libft.h" //
 
 typedef struct s_rules
@@ -31,6 +30,7 @@ typedef struct s_rules
 	unsigned short	time_to_sleep;
 	unsigned short	first_event_time;
 	unsigned short	num_meals;
+	unsigned short	completed_goals;
 	int				*forks;
 	int				exit_all;
 	pthread_mutex_t	mutex;
@@ -58,7 +58,7 @@ void			exit_fn(int code, char *message);
 int				delta_time(struct timeval time1, struct timeval time2);
 struct timeval	current_time(t_rules *rules);
 
-int				check_deaths(t_philo *ph);
+int				check_ending(t_philo *ph);
 void			ph_eat(t_philo *ph);
 void			ph_think(t_philo *ph);
 void			ph_sleep(t_philo *ph);

@@ -6,23 +6,23 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:06:41 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/26 00:14:02 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/01 04:28:14 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "../../philo_bonus/inc/philo_bonus.h"
 
-void	ph_sleep(t_philo *ph)
+void	ph_sleep(t_philo_b *ph)
 {
 	unsigned int	time_sleeping;
 
-	pthread_mutex_lock(&ph->rules->mutex);
-	if (check_deaths(ph))
+	sem_wait(ph->rules->fork_sem);
+	if (check_ending(ph))
 	{
-		pthread_mutex_unlock(&ph->rules->mutex);
+		sem_post(ph->rules->fork_sem);
 		return ;
 	}
-	pthread_mutex_unlock(&ph->rules->mutex);
+	sem_post(ph->rules->fork_sem);
 	time_sleeping = delta_time(ph->last_food, current_time(ph->rules));
 	if (time_sleeping < ph->rules->time_to_sleep)
 	{

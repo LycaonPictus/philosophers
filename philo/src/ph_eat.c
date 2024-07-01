@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:05:07 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/25 23:53:35 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/01 03:23:58 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,17 @@
 static void	end_and_sleep(t_philo *ph, struct timeval *now)
 {
 	ph->meals++;
+	if (ph->rules->num_meals && ph->meals == ph->rules->num_meals)
+		ph->rules->completed_goals++;
 	*(ph->left_fork) = 0;
 	*(ph->right_fork) = 0;
 	printf("%i %i is sleeping\n",
 		delta_time(ph->rules->start_time, *now), ph->id);
+	if (check_ending(ph))
+	{
+		pthread_mutex_unlock(&ph->rules->mutex);
+		return ;
+	}
 	pthread_mutex_unlock(&ph->rules->mutex);
 	ph_sleep(ph);
 }
@@ -29,7 +36,7 @@ void	ph_eat(t_philo *ph)
 	struct timeval	now;
 
 	pthread_mutex_lock(&ph->rules->mutex);
-	if (check_deaths(ph))
+	if (check_ending(ph))
 	{
 		pthread_mutex_unlock(&ph->rules->mutex);
 		return ;

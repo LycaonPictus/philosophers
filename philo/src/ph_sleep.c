@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:06:41 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/26 00:14:02 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/01 02:58:44 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ph_sleep(t_philo *ph)
 	unsigned int	time_sleeping;
 
 	pthread_mutex_lock(&ph->rules->mutex);
-	if (check_deaths(ph))
+	if (check_ending(ph))
 	{
 		pthread_mutex_unlock(&ph->rules->mutex);
 		return ;

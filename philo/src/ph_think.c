@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:27:05 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/25 21:40:16 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/01 02:58:57 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	wait_even(t_philo *ph)
 void	ph_think(t_philo *ph)
 {
 	pthread_mutex_lock(&ph->rules->mutex);
-	if (check_deaths(ph))
+	if (check_ending(ph))
 	{
 		pthread_mutex_unlock(&ph->rules->mutex);
 		return ;

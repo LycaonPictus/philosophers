@@ -1,5 +1,5 @@
 NAME = philo
-SRC_FILES = philo.c prints.c timereg.c parse_args.c exit_fn.c ph_eat.c ph_sleep.c ph_think.c check_deaths.c
+SRC_FILES = philo.c prints.c timereg.c parse_args.c exit_fn.c ph_eat.c ph_sleep.c ph_think.c check_ending.c
 SRC_FOLDER = $(addprefix src/,$(SRC_FILES))
 OBJ = $(addprefix ../obj/,$(SRC_FILES:%.c=%.o)) #$(SRC_FOLDER:.c=.o)
 COMPILER = gcc

@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:30:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/30 20:10:46 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/01 03:40:40 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	init_table(t_rules	*rules)
 	int	i;
 
 	rules->exit_all = 0;
+	rules->completed_goals = 0;
 	rules->forks = malloc(sizeof(int) * rules->num_phil);
 	rules->ready = 0;
 	if (!rules->forks)
@@ -111,7 +112,7 @@ int	main(int argc, char **argv)
 	while (i < rules.num_phil)
 		pthread_join(ph[i++].thread, NULL);
 	pthread_mutex_destroy(&rules.mutex);
-	free (ph);
+	free(ph);
 	free(rules.forks);
 	return (0);
 }

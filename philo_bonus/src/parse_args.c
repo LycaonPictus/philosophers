@@ -6,12 +6,12 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:47:42 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/25 21:21:41 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/01 04:26:22 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/str2num.h"
-#include "../inc/philo.h"
+#include "../../philo/inc/str2num.h"
+#include "../inc/philo_bonus.h"
 
 extern int	debugfd;
 
@@ -35,7 +35,7 @@ void	parse_ushort(char *arg, unsigned short *ptr)
 	exit_fn(1, NULL);
 }
 
-void	parse_args(int argc, char **argv, t_rules *rules)
+void	parse_args(int argc, char **argv, t_rules_b *rules)
 {
 	if (argc < 5 || argc > 6)
 	{

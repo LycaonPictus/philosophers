@@ -6,11 +6,11 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:01:28 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/25 21:21:33 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/01 04:25:04 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "../inc/philo_bonus.h"
 
 int	set_time(struct timeval *time)
 {
@@ -34,7 +34,7 @@ int	delta_time(struct timeval time1, struct timeval time2)
 	return (delta_s * 1000 + delta_us / 1000);
 }
 
-struct timeval	current_time(t_rules *rules)
+struct timeval	current_time(t_rules_b *rules)
 {
 	struct timeval	current_time;
 

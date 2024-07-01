@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_deaths.c                                     :+:      :+:    :+:   */
+/*   check_ending.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:07:46 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/25 21:17:53 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/01 03:22:01 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	check_deaths(t_philo *ph)
+int	check_ending(t_philo *ph)
 {
 	int				time_hungry;
 	struct timeval	now;
@@ -25,6 +25,11 @@ int	check_deaths(t_philo *ph)
 	{
 		ph->rules->exit_all = 1;
 		printf("%i %i died\n", delta_time(ph->rules->start_time, now), ph->id);
+		return (1);
+	}
+	if (ph->rules->num_meals && ph->rules->completed_goals == ph->rules->num_phil)
+	{
+		ph->rules->exit_all = 1;
 		return (1);
 	}
 	return (0);
