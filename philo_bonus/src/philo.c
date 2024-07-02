@@ -51,8 +51,6 @@ pid_t	create_phils(t_rules_b *rules, t_philo_b **ph_ptr)
 			do_something(&ph[i]);
 			sem_close(rules->semaphore);
 			sem_close(ph->fork_sem);
-			sem_unlink("/sem");
-			sem_unlink("/forks");
 			return (pid);
 		}
 		i++;
@@ -81,10 +79,7 @@ int	main(int argc, char **argv)
 	init_table(&rules);
 	pid = create_phils(&rules, &ph);
 	if (!pid)
-	{
-		sem_close(rules.semaphore);
 		return (0);
-	}
 	sem_post(rules.semaphore);
 	i = 0;
 	while (i < rules.num_phil)
@@ -92,5 +87,6 @@ int	main(int argc, char **argv)
 	free(ph);
 	sem_close(rules.semaphore);
 	sem_unlink("/sem");
+	sem_unlink("/forks");
 	return (0);
 }
