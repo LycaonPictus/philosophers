@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:07:46 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/04 14:38:06 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/04 21:47:02 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_ending(t_philo *ph)
 {
-	int				time_hungry;
+	unsigned int	time_hungry;
 	struct timeval	now;
 
 	if (ph->rules->exit_all)
@@ -24,7 +24,7 @@ int	check_ending(t_philo *ph)
 	if (time_hungry >= ph->rules->time_to_die)
 	{
 		ph->rules->exit_all = 1;
-		printf("%i %i died\n", delta_time(ph->rules->start_time, now), ph->id);
+		printf("%i %i died\n", delta_time(ph->rules->start_time, now) / 1000, ph->id);
 		return (1);
 	}
 	if (ph->rules->num_meals && ph->rules->completed_goals == ph->rules->num_phil)

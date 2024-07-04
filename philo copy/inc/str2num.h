@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:13:26 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/20 16:42:06 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/04 20:49:03 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ typedef enum e_str2num_status
 	NAN
 }	t_str2num_status;
 
-unsigned short	str2ushort(char *str, t_str2num_status *error);
+unsigned int	str2uint(char *str, t_str2num_status *error);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:30:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/04 14:37:20 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/04 22:02:06 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	set_ready(t_philo *ph, t_rules *rules)
 	pthread_mutex_lock(&rules->mutex);
 	if (ph->id == rules->num_phil)
 	{
-		set_time(&rules->start_time);
+		rules->start_time = current_time(rules);
 		rules->ready = 1;
 	}
 	pthread_mutex_unlock(&rules->mutex);
@@ -42,7 +42,7 @@ static void	wait_even(t_philo *ph)
 		if (ph->try_again)
 		{
 			pthread_mutex_unlock(&ph->rules->mutex);
-			usleep(ph->rules->time_to_die * 10);
+			usleep(ph->rules->min_time / 10);
 			pthread_mutex_lock(&ph->rules->mutex);
 		}
 	}
@@ -64,16 +64,19 @@ void	*do_something(void *ptr)
 		while (ph_think(ph))
 		{
 			pthread_mutex_unlock(&ph->rules->mutex);
+			usleep(10);
 			pthread_mutex_lock(&ph->rules->mutex);
 		}
 		while (ph_eat(ph))
 		{
 			pthread_mutex_unlock(&ph->rules->mutex);
+			usleep(10);
 			pthread_mutex_lock(&ph->rules->mutex);
 		}
 		while (ph_sleep(ph))
 		{
 			pthread_mutex_unlock(&ph->rules->mutex);
+			usleep(10);
 			pthread_mutex_lock(&ph->rules->mutex);
 		}
 	}
@@ -109,29 +112,33 @@ t_philo	*create_phils(t_rules *rules)
 	return (ph);
 }
 
-void	init_table(t_rules	*rules)
+int	init_table(t_rules	*rules)
 {
-	int	i;
+	unsigned int	i;
 
 	rules->exit_all = 0;
 	rules->completed_goals = 0;
 	rules->forks = malloc(sizeof(int) * rules->num_phil);
 	rules->ready = 0;
 	if (!rules->forks)
-		exit_fn(1, "Error allocating the forks.\n");
+	{
+		write(2, "Error: malloc failed allocating the fork array\n", 47);
+		return (-1);
+	}
 	i = 0;
 	while (i < rules->num_phil)
 		rules->forks[i++] = 0;
+	return (0);
 }
 
 int	main(int argc, char **argv)
 {
-	int				i;
+	unsigned int	i;
 	t_rules			rules;
 	t_philo			*ph;
 
-	parse_args(argc, argv, &rules);
-	init_table(&rules);
+	if (parse_args(argc, argv, &rules) || init_table(&rules))
+		return (1);
 	if (pthread_mutex_init(&rules.mutex, NULL))
 		write(2, "Init mutex failed.\n", 19);
 	ph = create_phils(&rules);

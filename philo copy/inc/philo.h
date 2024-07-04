@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/04 14:36:06 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/04 21:05:48 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@
 typedef struct s_rules
 {
 	struct timeval	start_time;
-	unsigned short	num_phil;
+	unsigned int	num_phil;
 	int				ready;
-	unsigned short	time_to_die;
-	unsigned short	time_to_eat;
-	unsigned short	time_to_sleep;
-	unsigned short	min_time;
-	unsigned short	num_meals;
-	unsigned short	completed_goals;
+	unsigned int	time_to_die;
+	unsigned int	time_to_eat;
+	unsigned int	time_to_sleep;
+	unsigned int	min_time;
+	unsigned int	num_meals;
+	unsigned int	completed_goals;
 	int				*forks;
 	int				exit_all;
 	pthread_mutex_t	mutex;
@@ -51,10 +51,7 @@ typedef struct s_philo
 
 unsigned int	ft_strlen(char *str);
 
-void			parse_args(int argc, char **argv, t_rules *rules);
-int				set_time(struct timeval *time);
-void			print_bad_args(char *prog_name);
-void			exit_fn(int code, char *message);
+int				parse_args(int argc, char **argv, t_rules *rules);
 int				delta_time(struct timeval time1, struct timeval time2);
 struct timeval	current_time(t_rules *rules);
 

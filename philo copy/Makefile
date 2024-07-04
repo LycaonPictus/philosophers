@@ -1,5 +1,5 @@
 NAME = philo
-SRC_FILES = philo.c prints.c timereg.c parse_args.c exit_fn.c ph_eat.c ph_sleep.c ph_think.c check_ending.c
+SRC_FILES = philo.c timereg.c parse_args.c ph_eat.c ph_sleep.c ph_think.c check_ending.c
 SRC_FOLDER = $(addprefix src/,$(SRC_FILES))
 OBJ = $(addprefix ../obj/,$(SRC_FILES:%.c=%.o)) #$(SRC_FOLDER:.c=.o)
 COMPILER = gcc
@@ -8,10 +8,10 @@ OPTIONS = -Wall -Werror -Wextra #-fsanitize=address
 all: $(NAME)
 
 $(NAME): $(SRC_FOLDER)
-	@$(COMPILER) $(OPTIONS) -o $(NAME) $(SRC_FOLDER) lib/libft/*.c lib/str2num/str2ushort.c
+	@$(COMPILER) $(OPTIONS) -o $(NAME) $(SRC_FOLDER) lib/libft/*.c lib/str2num/str2uint.c
 
 $(addprefix obj/,$(SRC_FILES:%.c=%.o)): $(SRC_FILES)
-	@$(COMPILER) $(OPTIONS) -c -o $(NAME) $(OBJ) lib/libft/*.c lib/str2num/str2ushort.c
+	@$(COMPILER) $(OPTIONS) -c -o $(NAME) $(OBJ) lib/libft/*.c lib/str2num/str2uint.c
 
 clean:
 	@rm -rf $(OBJ)
