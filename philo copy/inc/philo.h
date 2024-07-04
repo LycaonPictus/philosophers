@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_bonus.h                                      :+:      :+:    :+:   */
+/*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/04 13:00:49 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/04 14:36:06 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_BONUS_H
-# define PHILO_BONUS_H
+#ifndef PHILO_H
+# define PHILO_H
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <sys/time.h>
 # include <pthread.h>
-# include "../../philo/inc/libft.h"
-# include <semaphore.h>
-# include <sys/wait.h>
+# include "libft.h" //
 
-typedef struct s_rules_b
+typedef struct s_rules
 {
 	struct timeval	start_time;
 	unsigned short	num_phil;
@@ -30,37 +28,39 @@ typedef struct s_rules_b
 	unsigned short	time_to_die;
 	unsigned short	time_to_eat;
 	unsigned short	time_to_sleep;
-	unsigned short	first_event_time;
+	unsigned short	min_time;
 	unsigned short	num_meals;
 	unsigned short	completed_goals;
-	int				forks;
-	sem_t       	*semaphore;
+	int				*forks;
 	int				exit_all;
-}	t_rules_b;
+	pthread_mutex_t	mutex;
+}	t_rules;
 
-typedef struct s_philo_b
+typedef struct s_philo
 {
 	unsigned int	id;
-	pid_t			proccess;
-	t_rules_b		*rules;
+	pthread_t		thread;
+	t_rules			*rules;
+	int				*left_fork;
+	int				*right_fork;
 	struct timeval	last_thinking;
 	struct timeval	last_food;
 	unsigned int	meals;
-	sem_t       	*fork_sem;
-}	t_philo_b;
+	int				try_again;
+}	t_philo;
 
 unsigned int	ft_strlen(char *str);
 
-void			parse_args(int argc, char **argv, t_rules_b *rules);
+void			parse_args(int argc, char **argv, t_rules *rules);
 int				set_time(struct timeval *time);
 void			print_bad_args(char *prog_name);
 void			exit_fn(int code, char *message);
 int				delta_time(struct timeval time1, struct timeval time2);
-struct timeval	current_time(t_rules_b *rules);
+struct timeval	current_time(t_rules *rules);
 
-int				check_ending(t_philo_b *ph);
-void			ph_eat(t_philo_b *ph);
-void			ph_think(t_philo_b *ph);
-void			ph_sleep(t_philo_b *ph);
+int				check_ending(t_philo *ph);
+int				ph_eat(t_philo *ph);
+int				ph_think(t_philo *ph);
+int				ph_sleep(t_philo *ph);
 
 #endif

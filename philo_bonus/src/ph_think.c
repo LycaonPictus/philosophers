@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:27:05 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/01 23:20:56 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/04 12:26:58 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	start_eating(t_philo_b *ph, struct timeval *now)
 	set_time(&ph->last_thinking);
 	printf("%i %i is eating\n",
 		delta_time(ph->rules->start_time, *now), ph->id);
-	sem_post(ph->rules->semaphore);
 	ph_eat(ph);
 }
 
@@ -34,6 +33,7 @@ static void	take_available_forks(t_philo_b *ph)
 {
 	struct timeval	now;
 
+	sem_wait(ph->fork_sem);
 	now = current_time(ph->rules);
 	ph_take_fork(ph);
 	ph_take_fork(ph);
@@ -48,5 +48,6 @@ void	ph_think(t_philo_b *ph)
 		sem_post(ph->rules->semaphore);
 		return ;
 	}
+	sem_post(ph->rules->semaphore);
 	take_available_forks(ph);
 }

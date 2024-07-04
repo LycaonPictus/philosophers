@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:30:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/01 23:32:52 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/04 01:58:09 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,16 @@ pid_t	create_phils(t_rules_b *rules, t_philo_b **ph_ptr)
 		ph[i].rules = rules;
 		ph[i].id = i + 1;
 		ph[i].meals = 0;
-		ph[i].fork_sem = sem_open("/forks", O_CREAT, 0600, rules->num_phil / 2);
 		pid = fork();
 		if (pid)
 			ph[i].proccess = pid;
 		else
 		{
+			ph[i].fork_sem = sem_open("/forks", O_CREAT, 0600, rules->num_phil / 2);
 			sem_wait(rules->semaphore);
 			do_something(&ph[i]);
 			sem_close(rules->semaphore);
-			sem_close(ph->fork_sem);
+			sem_close(ph[i].fork_sem);
 			return (pid);
 		}
 		i++;

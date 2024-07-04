@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:05:07 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/04 12:37:52 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/04 14:16:52 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,25 @@ static void	end_and_sleep(t_philo *ph, struct timeval *now)
 	*(ph->right_fork) = 0;
 	printf("%i %i is sleeping\n",
 		delta_time(ph->rules->start_time, *now), ph->id);
-	if (check_ending(ph))
-	{
-		pthread_mutex_unlock(&ph->rules->mutex);
-		return ;
-	}
-	pthread_mutex_unlock(&ph->rules->mutex);
-	ph_sleep(ph);
 }
 
-void	ph_eat(t_philo *ph)
+int	ph_eat(t_philo *ph)
 {
 	unsigned int	time_eating;
 	struct timeval	now;
 
+	if (check_ending(ph))
+		return (0);
 	now = current_time(ph->rules);
 	time_eating = delta_time(ph->last_thinking, now);
-	pthread_mutex_lock(&ph->rules->mutex);
-	if (check_ending(ph))
-	{
-		pthread_mutex_unlock(&ph->rules->mutex);
-		return ;
-	}
 	if (time_eating < ph->rules->time_to_eat)
 	{
 		set_time(&ph->last_food);
-		pthread_mutex_unlock(&ph->rules->mutex);
-		usleep(10);
-		ph_eat(ph);
+		return (1);
 	}
 	else
+	{
 		end_and_sleep(ph, &now);
+		return (0);
+	}
 }

@@ -6,13 +6,13 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:07:46 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/04 12:36:50 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/04 14:38:06 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo_bonus.h"
+#include "../inc/philo.h"
 
-int	check_ending(t_philo_b *ph)
+int	check_ending(t_philo *ph)
 {
 	int				time_hungry;
 	struct timeval	now;
@@ -30,6 +30,7 @@ int	check_ending(t_philo_b *ph)
 	if (ph->rules->num_meals && ph->rules->completed_goals == ph->rules->num_phil)
 	{
 		ph->rules->exit_all = 1;
+		printf("Success\n");
 		return (1);
 	}
 	return (0);
