@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:07:46 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/01 03:22:01 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/05 13:32:19 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_ending(t_philo *ph)
 {
-	int				time_hungry;
+	unsigned int	time_hungry;
 	struct timeval	now;
 
 	if (ph->rules->exit_all)

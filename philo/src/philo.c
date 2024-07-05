@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:30:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/01 03:40:40 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/05 14:01:54 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,8 @@ void	wait_ready(t_rules *rules)
 	pthread_mutex_unlock(&rules->mutex);
 }
 
-void	*do_something(void *ptr)
+void	start_action(t_philo *ph)
 {
-	t_philo	*ph;
-
-	ph = ptr;
-	set_ready(ph, ph->rules);
-	wait_ready(ph->rules);
-	ph->last_food = ph->rules->start_time;
-	ph->last_thinking = ph->rules->start_time;
 	pthread_mutex_lock(&ph->rules->mutex);
 	while (!ph->rules->exit_all)
 	{
@@ -51,6 +44,18 @@ void	*do_something(void *ptr)
 		pthread_mutex_lock(&ph->rules->mutex);
 	}
 	pthread_mutex_unlock(&ph->rules->mutex);
+}
+
+void	*init_philo(void *ptr)
+{
+	t_philo	*ph;
+
+	ph = ptr;
+	set_ready(ph, ph->rules);
+	wait_ready(ph->rules);
+	ph->last_food = ph->rules->start_time;
+	ph->last_thinking = ph->rules->start_time;
+	start_action(ph);
 	return (ptr);
 }
 
@@ -72,7 +77,7 @@ t_philo	*create_phils(t_rules *rules)
 			ph[i].left_fork = &rules->forks[rules->num_phil - 1];
 		else
 			ph[i].left_fork = &rules->forks[i - 1];
-		if (pthread_create(&ph[i].thread, NULL, do_something, &ph[i]))
+		if (pthread_create(&ph[i].thread, NULL, init_philo, &ph[i]))
 		{
 			write(2, "Error: pthread failure.\n", 24);
 			return (NULL);
@@ -84,7 +89,7 @@ t_philo	*create_phils(t_rules *rules)
 
 void	init_table(t_rules	*rules)
 {
-	int	i;
+	unsigned int	i;
 
 	rules->exit_all = 0;
 	rules->completed_goals = 0;
@@ -99,7 +104,7 @@ void	init_table(t_rules	*rules)
 
 int	main(int argc, char **argv)
 {
-	int				i;
+	unsigned int	i;
 	t_rules			rules;
 	t_philo			*ph;
 

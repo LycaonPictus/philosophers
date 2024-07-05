@@ -8,10 +8,10 @@ OPTIONS = -Wall -Werror -Wextra #-fsanitize=address
 all: $(NAME)
 
 $(NAME): $(SRC_FOLDER)
-	@$(COMPILER) $(OPTIONS) -o $(NAME) $(SRC_FOLDER) lib/libft/*.c lib/str2num/str2ushort.c
+	@$(COMPILER) $(OPTIONS) -o $(NAME) $(SRC_FOLDER) lib/libft/*.c lib/str2num/str2uint.c
 
 $(addprefix obj/,$(SRC_FILES:%.c=%.o)): $(SRC_FILES)
-	@$(COMPILER) $(OPTIONS) -c -o $(NAME) $(OBJ) lib/libft/*.c lib/str2num/str2ushort.c
+	@$(COMPILER) $(OPTIONS) -c -o $(NAME) $(OBJ) lib/libft/*.c lib/str2num/str2uint.c
 
 clean:
 	@rm -rf $(OBJ)

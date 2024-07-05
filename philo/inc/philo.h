@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/01 04:29:08 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/05 13:31:20 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@
 typedef struct s_rules
 {
 	struct timeval	start_time;
-	unsigned short	num_phil;
+	unsigned int	num_phil;
 	int				ready;
-	unsigned short	time_to_die;
-	unsigned short	time_to_eat;
-	unsigned short	time_to_sleep;
-	unsigned short	first_event_time;
-	unsigned short	num_meals;
-	unsigned short	completed_goals;
+	unsigned int	time_to_die;
+	unsigned int	time_to_eat;
+	unsigned int	time_to_sleep;
+	unsigned int	first_event_time;
+	unsigned int	num_meals;
+	unsigned int	completed_goals;
 	int				*forks;
 	int				exit_all;
 	pthread_mutex_t	mutex;
