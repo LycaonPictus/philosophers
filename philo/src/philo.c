@@ -12,28 +12,6 @@
 
 #include "../inc/philo.h"
 
-void	set_ready(t_philo *ph, t_rules *rules)
-{
-	pthread_mutex_lock(&rules->mutex);
-	if (ph->id == rules->num_phil)
-	{
-		set_time(&rules->start_time);
-		rules->ready = 1;
-	}
-	pthread_mutex_unlock(&rules->mutex);
-}
-
-void	wait_ready(t_rules *rules)
-{
-	pthread_mutex_lock(&rules->mutex);
-	while (!rules->ready)
-	{
-		pthread_mutex_unlock(&rules->mutex);
-		pthread_mutex_lock(&rules->mutex);
-	}
-	pthread_mutex_unlock(&rules->mutex);
-}
-
 void	start_action(t_philo *ph)
 {
 	pthread_mutex_lock(&ph->rules->mutex);
@@ -51,10 +29,10 @@ void	*init_philo(void *ptr)
 	t_philo	*ph;
 
 	ph = ptr;
-	set_ready(ph, ph->rules);
-	wait_ready(ph->rules);
+	pthread_mutex_lock(&ph->rules->mutex);
 	ph->last_food = ph->rules->start_time;
 	ph->last_thinking = ph->rules->start_time;
+	pthread_mutex_unlock(&ph->rules->mutex);
 	start_action(ph);
 	return (ptr);
 }
@@ -77,6 +55,8 @@ t_philo	*create_phils(t_rules *rules)
 			ph[i].left_fork = &rules->forks[rules->num_phil - 1];
 		else
 			ph[i].left_fork = &rules->forks[i - 1];
+		if (i == 0)
+			pthread_mutex_lock(&rules->mutex);
 		if (pthread_create(&ph[i].thread, NULL, init_philo, &ph[i]))
 		{
 			write(2, "Error: pthread failure.\n", 24);
@@ -84,6 +64,8 @@ t_philo	*create_phils(t_rules *rules)
 		}
 		i++;
 	}
+	set_time(&rules->start_time);
+	pthread_mutex_unlock(&rules->mutex);
 	return (ph);
 }
 
