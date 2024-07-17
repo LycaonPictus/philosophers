@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:27:05 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/01 02:58:57 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:29:33 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,6 @@ static void	take_available_forks(t_philo *ph)
 	}
 }
 
-static void	wait_even(t_philo *ph)
-{
-	if (ph->id % 2 == 0)
-	{
-		ph->try_again = !ph->try_again;
-		if (ph->try_again)
-		{
-			pthread_mutex_unlock(&ph->rules->mutex);
-			usleep(100);
-			pthread_mutex_lock(&ph->rules->mutex);
-		}
-	}
-}
-
 void	ph_think(t_philo *ph)
 {
 	pthread_mutex_lock(&ph->rules->mutex);
@@ -84,6 +70,5 @@ void	ph_think(t_philo *ph)
 		pthread_mutex_unlock(&ph->rules->mutex);
 		return ;
 	}
-	wait_even(ph);
 	take_available_forks(ph);
 }

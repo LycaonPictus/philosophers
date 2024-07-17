@@ -6,18 +6,18 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:47:42 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/05 13:33:01 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:38:01 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/str2num.h"
 #include "../inc/philo.h"
 
-void	parse_uint(char *arg, unsigned int *ptr)
+void	parse_ushort(char *arg, unsigned short *ptr)
 {
 	t_str2num_status	err;
 
-	*ptr = str2uint(arg, &err);
+	*ptr = str2ushort(arg, &err);
 	if (err == OK && *ptr != 0)
 		return ;
 	write(2, "Parsing error: \"", 16);
@@ -39,16 +39,16 @@ void	parse_args(int argc, char **argv, t_rules *rules)
 		print_bad_args(argv[0]);
 		exit_fn(1, NULL);
 	}
-	parse_uint(argv[1], &rules->num_phil);
-	parse_uint(argv[2], &rules->time_to_die);
-	parse_uint(argv[3], &rules->time_to_eat);
-	parse_uint(argv[4], &rules->time_to_sleep);
+	parse_ushort(argv[1], &rules->num_phil);
+	parse_ushort(argv[2], &rules->time_to_die);
+	parse_ushort(argv[3], &rules->time_to_eat);
+	parse_ushort(argv[4], &rules->time_to_sleep);
 	if (rules->time_to_sleep >= rules->time_to_die)
 		rules->first_event_time = rules->time_to_die;
 	else
 		rules->first_event_time = rules->time_to_sleep;
 	if (argc == 6)
-		parse_uint(argv[5], &rules->num_meals);
+		parse_ushort(argv[5], &rules->num_meals);
 	else
 		rules->num_meals = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:01:28 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/25 21:21:33 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/17 13:31:48 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ int	delta_time(struct timeval time1, struct timeval time2)
 
 	delta_s = time2.tv_sec - time1.tv_sec;
 	delta_us = time2.tv_usec - time1.tv_usec;
-	if (delta_us > 500000)
-		delta_us += 1000;
 	return (delta_s * 1000 + delta_us / 1000);
 }
 

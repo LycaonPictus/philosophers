@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:07:46 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/05 13:32:19 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/17 13:36:53 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	check_ending(t_philo *ph)
 	}
 	if (ph->rules->num_meals && ph->rules->completed_goals == ph->rules->num_phil)
 	{
+		printf("\n-- Every philosopher has eaten %i times --\n", ph->rules->num_meals);
 		ph->rules->exit_all = 1;
 		return (1);
 	}

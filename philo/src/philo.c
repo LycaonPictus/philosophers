@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:30:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/05 14:01:54 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:29:11 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,16 @@
 void	start_action(t_philo *ph)
 {
 	pthread_mutex_lock(&ph->rules->mutex);
+	if (ph->id % 2 == 0)
+	{
+		ph->try_again = !ph->try_again;
+		if (ph->try_again)
+		{
+			pthread_mutex_unlock(&ph->rules->mutex);
+			usleep(500);
+			pthread_mutex_lock(&ph->rules->mutex);
+		}
+	}
 	while (!ph->rules->exit_all)
 	{
 		pthread_mutex_unlock(&ph->rules->mutex);
