@@ -6,11 +6,11 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:05:07 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/17 13:30:07 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:00:00 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include <philo.h>
 
 static void	end_and_sleep(t_philo *ph, struct timeval *now)
 {

@@ -6,12 +6,12 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:47:42 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/01 23:11:55 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:05:21 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../philo/inc/str2num.h"
-#include "../inc/philo_bonus.h"
+#include <str2num.h>
+#include <philo.h>
 
 void	parse_ushort(char *arg, unsigned short *ptr)
 {

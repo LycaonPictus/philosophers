@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/17 16:40:15 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:57:25 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <fcntl.h>
 # include <sys/time.h>
 # include <pthread.h>
-# include "libft.h" //
+# include "libft.h"
 
 typedef struct s_rules
 {
@@ -51,7 +51,7 @@ typedef struct s_philo
 
 unsigned int	ft_strlen(char *str);
 
-void			parse_args(int argc, char **argv, t_rules *rules);
+int				parse_args(int argc, char **argv, t_rules *rules);
 int				set_time(struct timeval *time);
 void			print_bad_args(char *prog_name);
 void			exit_fn(int code, char *message);

@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_fn.c                                          :+:      :+:    :+:   */
+/*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/20 16:51:48 by jholland          #+#    #+#             */
-/*   Updated: 2024/06/25 21:17:36 by jholland         ###   ########.fr       */
+/*   Created: 2023/11/29 21:29:11 by jholland          #+#    #+#             */
+/*   Updated: 2024/06/20 22:06:52 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#ifndef LIBFT_H
+# define LIBFT_H
 
-	//valgrind --tool=helgrind -s ./philo 5 400 200 200
-void	exit_fn(int code, char *message)
-{
-	write(2, message, ft_strlen(message));
-	exit(code); //Quitar	
-}
+# include <unistd.h>
+
+unsigned int	ft_strlen(char *str);
+
+#endif

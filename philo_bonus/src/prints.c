@@ -6,11 +6,11 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:34:59 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/01 04:24:52 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:05:21 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo_bonus.h"
+#include <philo.h>
 
 void	print_bad_args(char *prog_name)
 {

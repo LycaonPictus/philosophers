@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:30:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/17 16:29:11 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:57:17 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include <philo.h>
 
 void	start_action(t_philo *ph)
 {
@@ -79,19 +79,23 @@ t_philo	*create_phils(t_rules *rules)
 	return (ph);
 }
 
-void	init_table(t_rules	*rules)
+int	init_table(t_rules	*rules)
 {
 	unsigned int	i;
 
 	rules->exit_all = 0;
 	rules->completed_goals = 0;
-	rules->forks = malloc(sizeof(int) * rules->num_phil);
 	rules->ready = 0;
+	rules->forks = malloc(sizeof(int) * rules->num_phil);
 	if (!rules->forks)
-		exit_fn(1, "Error allocating the forks.\n");
+	{
+		write(2, "Error allocating the forks.\n", 28);
+		return (1);
+	}
 	i = 0;
 	while (i < rules->num_phil)
 		rules->forks[i++] = 0;
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -100,11 +104,18 @@ int	main(int argc, char **argv)
 	t_rules			rules;
 	t_philo			*ph;
 
-	parse_args(argc, argv, &rules);
-	init_table(&rules);
+	if (parse_args(argc, argv, &rules))
+		return (1);
+	if (init_table(&rules))
+		return (1);
 	if (pthread_mutex_init(&rules.mutex, NULL))
 		write(2, "Init mutex failed.\n", 19);
 	ph = create_phils(&rules);
+	if (!ph)
+	{
+		free(rules.forks);
+		
+	}
 	i = 0;
 	while (i < rules.num_phil)
 		pthread_join(ph[i++].thread, NULL);
