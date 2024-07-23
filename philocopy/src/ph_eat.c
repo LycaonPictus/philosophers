@@ -6,11 +6,11 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:05:07 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/18 19:39:44 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:28:24 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+#include <philo2.h>
 
 static void	end_and_sleep(t_philo *ph, struct timeval *now)
 {
@@ -20,10 +20,10 @@ static void	end_and_sleep(t_philo *ph, struct timeval *now)
 		ph->rules->completed_goals++;
 	pthread_mutex_unlock(&ph->rules->mutex);
 	pthread_mutex_lock(ph->left_fork_mutex);
-	pthread_mutex_lock(ph->right_fork_mutex);
 	*(ph->left_fork) = 0;
-	*(ph->right_fork) = 0;
 	pthread_mutex_unlock(ph->left_fork_mutex);
+	pthread_mutex_lock(ph->right_fork_mutex);
+	*(ph->right_fork) = 0;
 	pthread_mutex_unlock(ph->right_fork_mutex);
 	pthread_mutex_lock(&ph->rules->print_mutex);
 	printf("%i %i is sleeping\n",

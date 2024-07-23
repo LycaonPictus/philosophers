@@ -6,12 +6,11 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:30:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/18 20:50:03 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:58:26 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include <philo.h>
-#include "../inc/philo.h"
+#include <philo2.h>
 
 void	free4(void *p1, void *p2, void *p3, void *p4)
 {
@@ -122,11 +121,29 @@ int	init_forks(t_rules	*rules)
 	return (0);
 }
 
-int	init_table(t_rules	*rules)
+int	init_mutex(t_rules *rules)
+{
+	if (pthread_mutex_init(&rules->mutex, NULL))
+	{
+		write(2, "Init mutex failed.\n", 19);
+		return (1);
+	}
+	if (pthread_mutex_init(&rules->print_mutex, NULL))
+	{
+		pthread_mutex_destroy(&rules->mutex);
+		write(2, "Init mutex failed.\n", 19);
+		return (1);
+	}
+	return (0);
+}
+
+int	init_table(t_rules *rules)
 {
 	rules->exit_all = 0;
 	rules->completed_goals = 0;
 	rules->ready = 0;
+	rules->forks = NULL;
+	rules->fork_mutex = NULL;
 	return (init_forks(rules));
 }
 
@@ -137,13 +154,8 @@ int	main(int argc, char **argv)
 	t_rules			rules;
 	t_philo			*ph;
 
-	if (pthread_mutex_init(&rules.mutex, NULL))
-		write(2, "Init mutex failed.\n", 19);
-	if (pthread_mutex_init(&rules.print_mutex, NULL))
-	{
-		pthread_mutex_destroy(&rules.mutex);
-		write(2, "Init mutex failed.\n", 19);
-	}
+	ph = NULL;
+	init_mutex(&rules);
 	if (parse_args(argc, argv, &rules))
 		return (1);
 	if (init_table(&rules))

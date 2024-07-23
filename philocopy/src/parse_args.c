@@ -6,12 +6,12 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:47:42 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/18 16:40:44 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:39:54 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <str2num.h>
-#include <philo.h>
+#include <philo2.h>
 
 int	parse_ushort(char *arg, unsigned short *ptr)
 {

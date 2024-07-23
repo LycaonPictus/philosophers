@@ -6,11 +6,11 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:07:46 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/18 20:42:31 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:39:30 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+#include <philo2.h>
 
 int	check_ending(t_philo *ph)
 {

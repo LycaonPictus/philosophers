@@ -6,11 +6,11 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:27:05 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/18 20:53:13 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:38:44 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+#include <philo2.h>
 
 static void	start_eating(t_philo *ph, struct timeval *now)
 {
@@ -29,10 +29,10 @@ static void	ph_take_fork(t_philo *ph, int *fork_ptr)
 	now = current_time(ph->rules);
 	if (fork_ptr != ph->left_fork && fork_ptr != ph->right_fork)
 		return ;
-	if (fork_ptr == ph->left_fork && *fork_ptr == 0)
-		*(ph->left_fork) = 2;
+	else if (fork_ptr == ph->left_fork && *fork_ptr == 0)
+		*fork_ptr = 2;
 	else if (fork_ptr == ph->right_fork && *fork_ptr == 0)
-		*(ph->right_fork) = 1;
+		*fork_ptr = 1;
 	else
 		return ;
 	pthread_mutex_lock(&ph->rules->print_mutex);
@@ -44,24 +44,26 @@ static void	ph_take_fork(t_philo *ph, int *fork_ptr)
 static void	take_available_forks(t_philo *ph)
 {
 	struct timeval	now;
+	int				n_forks;
 
+	n_forks = 0;
 	now = current_time(ph->rules);
 	pthread_mutex_lock(ph->left_fork_mutex);
 	if (*(ph->left_fork) == 0)
 		ph_take_fork(ph, ph->left_fork);
+	if (*(ph->left_fork) == 2)
+		n_forks++;
+	pthread_mutex_unlock(ph->left_fork_mutex);
 	pthread_mutex_lock(ph->right_fork_mutex);
 	if (*(ph->right_fork) == 0)
 		ph_take_fork(ph, ph->right_fork);
-	if (*(ph->left_fork) == 2 && *(ph->right_fork) == 1)
-	{
-		pthread_mutex_unlock(ph->left_fork_mutex);
-		pthread_mutex_unlock(ph->right_fork_mutex);
+	if (*(ph->right_fork) == 1)
+		n_forks++;
+	pthread_mutex_unlock(ph->right_fork_mutex);
+	if (n_forks == 2)
 		start_eating(ph, &now);
-	}
 	else
 	{
-		pthread_mutex_unlock(ph->left_fork_mutex);
-		pthread_mutex_unlock(ph->right_fork_mutex);
 		usleep(10);
 		ph_think(ph);
 	}

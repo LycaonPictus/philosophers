@@ -6,11 +6,11 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:01:28 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/18 15:00:00 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:40:10 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+#include <philo2.h>
 
 int	set_time(struct timeval *time)
 {
