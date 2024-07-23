@@ -6,11 +6,11 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:27:05 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/19 16:38:44 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:53:56 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo2.h>
+#include <philo.h>
 
 static void	start_eating(t_philo *ph, struct timeval *now)
 {

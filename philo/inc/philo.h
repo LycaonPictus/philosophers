@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/18 16:57:25 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/18 20:48:37 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ typedef struct s_rules
 	unsigned short	num_meals;
 	unsigned short	completed_goals;
 	int				*forks;
+	pthread_mutex_t	*fork_mutex;
 	int				exit_all;
 	pthread_mutex_t	mutex;
+	pthread_mutex_t	print_mutex;
 }	t_rules;
 
 typedef struct s_philo
@@ -42,7 +44,9 @@ typedef struct s_philo
 	pthread_t		thread;
 	t_rules			*rules;
 	int				*left_fork;
+	pthread_mutex_t	*left_fork_mutex;
 	int				*right_fork;
+	pthread_mutex_t	*right_fork_mutex;
 	struct timeval	last_thinking;
 	struct timeval	last_food;
 	unsigned int	meals;
