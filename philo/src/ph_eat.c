@@ -6,13 +6,13 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:05:07 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/23 13:53:56 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/23 20:36:32 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-static void	end_and_sleep(t_philo *ph, struct timeval *now)
+static void	end_and_sleep(t_philo *ph)
 {
 	ph->meals++;
 	pthread_mutex_lock(&ph->rules->mutex);
@@ -27,7 +27,7 @@ static void	end_and_sleep(t_philo *ph, struct timeval *now)
 	pthread_mutex_unlock(ph->right_fork_mutex);
 	pthread_mutex_lock(&ph->rules->print_mutex);
 	printf("%i %i is sleeping\n",
-		delta_time(ph->rules->start_time, *now), ph->id);
+		delta_time(ph->rules->start_time, current_time(ph->rules)), ph->id);
 	pthread_mutex_unlock(&ph->rules->print_mutex);
 	ph_sleep(ph);
 }
@@ -35,23 +35,21 @@ static void	end_and_sleep(t_philo *ph, struct timeval *now)
 void	ph_eat(t_philo *ph)
 {
 	unsigned int	time_eating;
-	struct timeval	now;
 
-	now = current_time(ph->rules);
-	time_eating = delta_time(ph->last_thinking, now);
 	pthread_mutex_lock(&ph->rules->mutex);
 	if (check_ending(ph))
 	{
 		pthread_mutex_unlock(&ph->rules->mutex);
 		return ;
 	}
+	set_time(&ph->last_food);
+	time_eating = delta_time(ph->last_thinking, ph->last_food);
 	pthread_mutex_unlock(&ph->rules->mutex);
 	if (time_eating < ph->rules->time_to_eat)
 	{
-		set_time(&ph->last_food);
 		usleep(10);
 		ph_eat(ph);
 	}
 	else
-		end_and_sleep(ph, &now);
+		end_and_sleep(ph);
 }

@@ -6,18 +6,17 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:27:05 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/23 13:53:56 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/23 20:33:57 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-static void	start_eating(t_philo *ph, struct timeval *now)
+static void	start_eating(t_philo *ph)
 {
-	set_time(&ph->last_thinking);
 	pthread_mutex_lock(&ph->rules->print_mutex);
 	printf("%i %i is eating\n",
-		delta_time(ph->rules->start_time, *now), ph->id);
+		delta_time(ph->rules->start_time, current_time(ph->rules)), ph->id);
 	pthread_mutex_unlock(&ph->rules->print_mutex);
 	ph_eat(ph);
 }
@@ -43,11 +42,9 @@ static void	ph_take_fork(t_philo *ph, int *fork_ptr)
 
 static void	take_available_forks(t_philo *ph)
 {
-	struct timeval	now;
 	int				n_forks;
 
 	n_forks = 0;
-	now = current_time(ph->rules);
 	pthread_mutex_lock(ph->left_fork_mutex);
 	if (*(ph->left_fork) == 0)
 		ph_take_fork(ph, ph->left_fork);
@@ -61,7 +58,10 @@ static void	take_available_forks(t_philo *ph)
 		n_forks++;
 	pthread_mutex_unlock(ph->right_fork_mutex);
 	if (n_forks == 2)
-		start_eating(ph, &now);
+	{
+		set_time(&ph->last_thinking);
+		start_eating(ph);
+	}
 	else
 	{
 		usleep(10);
