@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:06:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/24 16:36:10 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:53:59 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	init_table(t_rules *rules)
 {
 	rules->exit_all = 0;
 	rules->completed_goals = 0;
-	rules->ready = 0;
 	rules->forks = NULL;
 	rules->fork_mutex = NULL;
 	if (init_mutex(rules))

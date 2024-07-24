@@ -6,18 +6,20 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/18 15:05:48 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:52:25 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
+
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <sys/time.h>
 # include <pthread.h>
+
 # include "libft.h"
 # include <semaphore.h>
 # include <sys/wait.h>

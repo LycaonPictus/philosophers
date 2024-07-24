@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/24 19:54:44 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/24 20:08:19 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -21,6 +21,8 @@
 # include <pthread.h>
 
 # include "libft.h"
+# include <semaphore.h>
+# include <sys/wait.h>
 
 typedef struct s_rules
 {
@@ -30,23 +32,18 @@ typedef struct s_rules
 	unsigned short	time_to_eat;
 	unsigned short	time_to_sleep;
 	unsigned short	num_meals;
+	sem_t			*fork_sem;
+	sem_t			*print_sem;
+	sem_t			*other_sem;
 	unsigned short	completed_goals;
-	int				*forks;
-	pthread_mutex_t	*fork_mutex;
 	int				exit_all;
-	pthread_mutex_t	mutex;
-	pthread_mutex_t	print_mutex;
 }	t_rules;
 
 typedef struct s_philo
 {
 	unsigned int	id;
-	pthread_t		thread;
+	pid_t			pid;
 	t_rules			*rules;
-	int				*left_fork;
-	pthread_mutex_t	*left_fork_mutex;
-	int				*right_fork;
-	pthread_mutex_t	*right_fork_mutex;
 	struct timeval	last_thinking;
 	struct timeval	last_food;
 	unsigned int	meals;
