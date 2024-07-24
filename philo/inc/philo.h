@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/24 17:58:02 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:04:42 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int				delta_time(struct timeval time1, struct timeval time2);
 // TABLE
 int				init_table(t_rules *rules);
 void			destroy_mutexes(t_rules *rules, unsigned int n_forks);
-
 
 // PHILOSPHER BEHAVIOUR
 t_philo			*create_philos(t_rules *rules);
