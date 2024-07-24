@@ -6,14 +6,23 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:47:42 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/23 13:53:56 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:54:52 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <str2num.h>
 #include <philo.h>
 
-int	parse_ushort(char *arg, unsigned short *ptr)
+static void	print_bad_args(char *prog_name)
+{
+	write(2, "usage: \"", 8);
+	write(2, prog_name, ft_strlen(prog_name));
+	write(2, " number_of_philosophers time_to_die time_to_eat time_to_sleep "
+		"[number_of_times_each_philosopher_must_eat]\"\n", 107);
+	exit(1);
+}
+
+static int	parse_ushort(char *arg, unsigned short *ptr)
 {
 	t_str2num_status	err;
 

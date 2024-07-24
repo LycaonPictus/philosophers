@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 13:25:48 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/18 14:57:31 by jholland         ###   ########.fr       */
+/*   Created: 2024/07/24 16:12:23 by jholland          #+#    #+#             */
+/*   Updated: 2024/07/24 17:01:18 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <philo.h>
 
-void	ft_putendl_fd(char *s, int fd)
+void	free4(void *p1, void *p2, void *p3, void *p4)
 {
-	write (fd, s, ft_strlen(s));
-	write (fd, "\n", 1);
+	free(p1);
+	free(p2);
+	free(p3);
+	free(p4);
 }

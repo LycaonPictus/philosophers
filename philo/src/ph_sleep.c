@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:06:41 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/23 13:53:56 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:43:02 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ph_sleep(t_philo *ph)
 	unsigned int	time_sleeping;
 
 	pthread_mutex_lock(&ph->rules->mutex);
-	if (check_ending(ph))
+	if (check_ending(ph, ph->rules))
 	{
 		pthread_mutex_unlock(&ph->rules->mutex);
 		return ;
@@ -28,5 +28,6 @@ void	ph_sleep(t_philo *ph)
 	{
 		usleep(10);
 		ph_sleep(ph);
+		return ;
 	}
 }

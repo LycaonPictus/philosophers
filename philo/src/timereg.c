@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:01:28 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/23 13:53:56 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:49:58 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	set_time(struct timeval *time)
 	error = gettimeofday(time, NULL);
 	if (error)
 		write(2, "Error getting the time\n", 23);
+	else
+		time->tv_usec -= time->tv_usec % 1000;
 	return (error);
 }
 

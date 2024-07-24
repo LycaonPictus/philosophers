@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:27:05 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/18 15:05:21 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:50:32 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	take_available_forks(t_philo_b *ph)
 void	ph_think(t_philo_b *ph)
 {
 	sem_wait(ph->rules->semaphore);
-	if (check_ending(ph))
+	if (check_ending(ph, rules))
 	{
 		sem_post(ph->rules->semaphore);
 		return ;

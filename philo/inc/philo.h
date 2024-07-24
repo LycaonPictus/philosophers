@@ -6,18 +6,20 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/18 20:48:37 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:58:02 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
+
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <sys/time.h>
 # include <pthread.h>
+
 # include "libft.h"
 
 typedef struct s_rules
@@ -50,21 +52,29 @@ typedef struct s_philo
 	struct timeval	last_thinking;
 	struct timeval	last_food;
 	unsigned int	meals;
-	int				try_again;
 }	t_philo;
 
-unsigned int	ft_strlen(char *str);
-
+// PARSE FUNCTIONS
 int				parse_args(int argc, char **argv, t_rules *rules);
-int				set_time(struct timeval *time);
-void			print_bad_args(char *prog_name);
-void			exit_fn(int code, char *message);
-int				delta_time(struct timeval time1, struct timeval time2);
-struct timeval	current_time(t_rules *rules);
 
-int				check_ending(t_philo *ph);
+// TIME FUNCTIONS
+int				set_time(struct timeval *time);
+struct timeval	current_time(t_rules *rules);
+int				delta_time(struct timeval time1, struct timeval time2);
+
+// TABLE
+int				init_table(t_rules *rules);
+void			destroy_mutexes(t_rules *rules, unsigned int n_forks);
+
+
+// PHILOSPHER BEHAVIOUR
+t_philo			*create_philos(t_rules *rules);
+int				check_ending(t_philo *ph, t_rules *rules);
 void			ph_eat(t_philo *ph);
 void			ph_think(t_philo *ph);
 void			ph_sleep(t_philo *ph);
+
+// UTILS
+void			free4(void *p1, void *p2, void *p3, void *p4);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:27:05 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/23 20:33:57 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:12:04 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,13 @@ static void	start_eating(t_philo *ph)
 {
 	pthread_mutex_lock(&ph->rules->print_mutex);
 	printf("%i %i is eating\n",
-		delta_time(ph->rules->start_time, current_time(ph->rules)), ph->id);
+		delta_time(ph->rules->start_time, ph->last_thinking), ph->id);
 	pthread_mutex_unlock(&ph->rules->print_mutex);
 	ph_eat(ph);
 }
 
 static void	ph_take_fork(t_philo *ph, int *fork_ptr)
 {
-	struct timeval	now;
-
-	now = current_time(ph->rules);
 	if (fork_ptr != ph->left_fork && fork_ptr != ph->right_fork)
 		return ;
 	else if (fork_ptr == ph->left_fork && *fork_ptr == 0)
@@ -36,7 +33,7 @@ static void	ph_take_fork(t_philo *ph, int *fork_ptr)
 		return ;
 	pthread_mutex_lock(&ph->rules->print_mutex);
 	printf("%i %i has taken a fork\n",
-		delta_time(ph->rules->start_time, now), ph->id);
+		delta_time(ph->rules->start_time, current_time(ph->rules)), ph->id);
 	pthread_mutex_unlock(&ph->rules->print_mutex);
 }
 
@@ -72,7 +69,7 @@ static void	take_available_forks(t_philo *ph)
 void	ph_think(t_philo *ph)
 {
 	pthread_mutex_lock(&ph->rules->mutex);
-	if (check_ending(ph))
+	if (check_ending(ph, ph->rules))
 	{
 		pthread_mutex_unlock(&ph->rules->mutex);
 		return ;

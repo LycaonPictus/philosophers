@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:05:07 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/18 15:05:21 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:50:32 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	end_and_sleep(t_philo_b *ph, struct timeval *now)
 	sem_post(ph->fork_sem);
 	printf("%i %i is sleeping\n",
 		delta_time(ph->rules->start_time, *now), ph->id);
-	if (check_ending(ph))
+	if (check_ending(ph, rules))
 	{
 		sem_post(ph->rules->semaphore);
 		return ;
@@ -35,7 +35,7 @@ void	ph_eat(t_philo_b *ph)
 	struct timeval	now;
 
 	sem_wait(ph->rules->semaphore);
-	if (check_ending(ph))
+	if (check_ending(ph, rules))
 	{
 		sem_post(ph->rules->semaphore);
 		return ;

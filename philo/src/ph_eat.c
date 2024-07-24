@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:05:07 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/23 20:36:32 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:42:50 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ void	ph_eat(t_philo *ph)
 	unsigned int	time_eating;
 
 	pthread_mutex_lock(&ph->rules->mutex);
-	if (check_ending(ph))
+	if (check_ending(ph, ph->rules))
 	{
 		pthread_mutex_unlock(&ph->rules->mutex);
 		return ;
 	}
+	pthread_mutex_unlock(&ph->rules->mutex);
 	set_time(&ph->last_food);
 	time_eating = delta_time(ph->last_thinking, ph->last_food);
-	pthread_mutex_unlock(&ph->rules->mutex);
 	if (time_eating < ph->rules->time_to_eat)
 	{
 		usleep(10);
