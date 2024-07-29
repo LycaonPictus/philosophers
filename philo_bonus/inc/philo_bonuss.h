@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_bonus.h                                      :+:      :+:    :+:   */
+/*   philo_bonuss.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/24 19:52:25 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:18:39 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_BONUS_H
-# define PHILO_BONUS_H
+#ifndef PHILO_BONUSS_H
+# define PHILO_BONUSS_H
 
 # include <unistd.h>
 # include <stdlib.h>

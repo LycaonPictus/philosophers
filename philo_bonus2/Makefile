@@ -1,4 +1,4 @@
-NAME = philo
+NAME = philo_bonus
 COMPILER = gcc
 OPTIONS = -Wall -Werror -Wextra #-fsanitize=address
 INCLUDES = -Iinc

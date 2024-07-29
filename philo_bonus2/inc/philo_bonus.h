@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/24 20:08:19 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/29 20:25:59 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ typedef struct s_philo
 	struct timeval	last_thinking;
 	struct timeval	last_food;
 	unsigned int	meals;
+	sem_t			*fork_sem;
+	sem_t			*print_sem;
+	sem_t			*other_sem;
 }	t_philo;
 
 // PARSE FUNCTIONS

@@ -6,11 +6,11 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:27:05 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/24 20:02:15 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:25:42 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo_bonus.h>
+/*#include <philo_bonus.h>*/#include "../inc/philo_bonus.h"
 
 static void	start_eating(t_philo *ph)
 {

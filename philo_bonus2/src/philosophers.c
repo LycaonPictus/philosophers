@@ -6,13 +6,13 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:04:28 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/24 20:02:14 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/29 21:32:45 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo_bonus.h>
+/*#include <philo_bonus.h>*/#include "../inc/philo_bonus.h"
 
-void	start_action(t_philo *ph)
+/*void	start_action(t_philo *ph)
 {
 	pthread_mutex_lock(&ph->rules->mutex);
 	if (ph->id % 2 == 0)
@@ -28,19 +28,28 @@ void	start_action(t_philo *ph)
 		pthread_mutex_lock(&ph->rules->mutex);
 	}
 	pthread_mutex_unlock(&ph->rules->mutex);
-}
-
-void	*init_philo(void *ptr)
+}*/
+#include <stdio.h>
+void	init_philo(t_philo *ph)
 {
-	t_philo	*ph;
-
-	ph = ptr;
-	pthread_mutex_lock(&ph->rules->mutex);
+	ph->fork_sem = sem_open("/forks", O_CREAT);
+	ph->print_sem = sem_open("/print", O_CREAT);
+	ph->other_sem = sem_open("/other", O_CREAT);
+	if (!ph->fork_sem || !ph->print_sem || !ph->other_sem)
+	{
+		sem_wait(ph->print_sem);
+		write(2, "Sem error2.\n", 12);//
+		sem_post(ph->print_sem);
+		return ;
+	}
+	sem_wait(ph->other_sem);
+	sem_wait(ph->print_sem);
+	printf("Hola %i, %li\n", ph->id, ph->rules->start_time.tv_sec);
+	sem_post(ph->print_sem);
+	return ;
 	ph->last_food = ph->rules->start_time;
 	ph->last_thinking = ph->rules->start_time;
-	pthread_mutex_unlock(&ph->rules->mutex);
-	start_action(ph);
-	return (ptr);
+	//start_action(ph);
 }
 
 void	set_attributes(t_philo *ph, unsigned int index)
@@ -50,24 +59,13 @@ void	set_attributes(t_philo *ph, unsigned int index)
 	rules = ph->rules;
 	ph->id = index + 1;
 	ph->meals = 0;
-	ph->right_fork = &rules->forks[index];
-	ph->right_fork_mutex = &rules->fork_mutex[index];
-	if (index == 0)
-	{
-		ph->left_fork = &rules->forks[rules->num_phil - 1];
-		ph->left_fork_mutex = &rules->fork_mutex[rules->num_phil - 1];
-	}
-	else
-	{
-		ph->left_fork = &rules->forks[index - 1];
-		ph->left_fork_mutex = &rules->fork_mutex[index - 1];
-	}
 }
 
 t_philo	*create_philos(t_rules *rules)
 {
 	unsigned int	i;
 	t_philo			*ph;
+	pid_t			pid;
 
 	i = 0;
 	ph = malloc(sizeof(t_philo) * rules->num_phil);
@@ -77,16 +75,32 @@ t_philo	*create_philos(t_rules *rules)
 	{
 		ph[i].rules = rules;
 		set_attributes(&ph[i], i);
-		if (i == 0)
-			pthread_mutex_lock(&rules->mutex);
-		if (pthread_create(&ph[i].thread, NULL, init_philo, &ph[i]))
+		pid = fork();
+		if (pid)
+			ph[i].pid = pid;
+		else
 		{
-			write(2, "Error: pthread failure.\n", 24);
-			return (NULL);
+			sem_wait(rules->print_sem);
+			printf("Philo %i created\n", i + 1);
+			sem_post(rules->print_sem);
+			init_philo(&ph[i]);
+			break ;
 		}
 		i++;
 	}
-	set_time(&rules->start_time);
-	pthread_mutex_unlock(&rules->mutex);
-	return (ph);
+	if (!pid)
+	{
+		set_time(&rules->start_time);
+		sem_post(rules->other_sem);
+		i = 0;
+		while (i < rules->num_phil)
+		{
+			waitpid(ph[i++].pid, NULL, 0);
+			sem_wait(rules->print_sem);
+			printf("Philo %i finished\n", i);
+			sem_post(rules->print_sem);
+		}
+		return (ph);
+	}
+	return (0);
 }

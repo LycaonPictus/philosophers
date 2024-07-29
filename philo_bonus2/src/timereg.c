@@ -6,11 +6,11 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:01:28 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/24 20:02:12 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:25:49 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo_bonus.h>
+/*#include <philo_bonus.h>*/#include "../inc/philo_bonus.h"
 
 int	set_time(struct timeval *time)
 {
