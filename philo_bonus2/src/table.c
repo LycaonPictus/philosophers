@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:06:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/29 21:36:34 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:40:38 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,10 @@ static int	init_semaphores(t_rules *rules)
 
 int	init_table(t_rules *rules)
 {
-	rules->exit_all = 0;
 	rules->completed_goals = 0;
 	if (init_semaphores(rules))
+		return (1);
+	if (set_time(&rules->start_time))
 		return (1);
 	return (0);
 }

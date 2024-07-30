@@ -6,50 +6,49 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:05:07 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/29 19:25:36 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:43:45 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*#include <philo_bonus.h>*/#include "../inc/philo_bonus.h"
 
-static void	end_and_sleep(t_philo *ph)
+static int	end_and_sleep(t_philo *ph)
 {
-	ph->meals++;
-	pthread_mutex_lock(&ph->rules->mutex);
-	if (ph->rules->num_meals && ph->meals == ph->rules->num_meals)
-		ph->rules->completed_goals++;
-	pthread_mutex_unlock(&ph->rules->mutex);
-	pthread_mutex_lock(ph->left_fork_mutex);
-	*(ph->left_fork) = 0;
-	pthread_mutex_unlock(ph->left_fork_mutex);
-	pthread_mutex_lock(ph->right_fork_mutex);
-	*(ph->right_fork) = 0;
-	pthread_mutex_unlock(ph->right_fork_mutex);
-	pthread_mutex_lock(&ph->rules->print_mutex);
+	int	sleep_return;
+
+	sem_post(ph->fork_sem);
+	if (ph->rules->num_meals)
+		ph->meals++;
+	sem_wait(ph->print_sem);
 	printf("%i %i is sleeping\n",
-		delta_time(ph->rules->start_time, current_time(ph->rules)), ph->id);
-	pthread_mutex_unlock(&ph->rules->print_mutex);
-	ph_sleep(ph);
+		delta_time(ph->rules->start_time, current_time()), ph->id);
+	sem_post(ph->print_sem);
+	sleep_return = ph_sleep(ph);
+	if (sleep_return == 1)
+		return (1);
+	if (ph->rules->num_meals && ph->meals == ph->rules->num_meals)
+		return (2);
+	return (0);
 }
 
-void	ph_eat(t_philo *ph)
+int	ph_eat(t_philo *ph)
 {
 	unsigned int	time_eating;
+	int				check_result;
+	int				eat_result;
 
-	pthread_mutex_lock(&ph->rules->mutex);
-	if (check_ending(ph, ph->rules))
-	{
-		pthread_mutex_unlock(&ph->rules->mutex);
-		return ;
-	}
-	pthread_mutex_unlock(&ph->rules->mutex);
+	check_result = check_ending(ph, ph->rules);
+	if (check_result)
+		return (check_result);
 	set_time(&ph->last_food);
 	time_eating = delta_time(ph->last_thinking, ph->last_food);
 	if (time_eating < ph->rules->time_to_eat)
 	{
 		usleep(10);
-		ph_eat(ph);
+		eat_result = ph_eat(ph);
+		if (eat_result)
+			return (eat_result);
 	}
 	else
-		end_and_sleep(ph);
+		return (end_and_sleep(ph));
 }

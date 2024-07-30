@@ -6,45 +6,41 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:30:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/30 00:44:22 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/30 20:15:05 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*#include <philo_bonus.h>*/#include "../inc/philo_bonus.h"
 // gcc -I ../inc main.c table.c philosophers.c parse_args.c timereg.c ../lib/*/*.c
+void	unlink_semaphores(void)
+{
+	sem_unlink("/forks");
+	sem_unlink("/print");
+	sem_unlink("/other");
+}
+
 int	main(int argc, char **argv)
 {
 	unsigned int	i;
 	t_rules			rules;
-	t_philo			*ph;
+	int				result;
 
-	sem_unlink("/forks");
-	sem_unlink("/print");
-	sem_unlink("/other");
-	ph = NULL;
+	unlink_semaphores();
 	if (parse_args(argc, argv, &rules))
 		return (1);
 	if (init_table(&rules))
 		return (1);
-	ph = create_philos(&rules);
-	if (!ph)
-		return (0);
-	sem_wait(rules.print_sem);
-	printf("A");
-	sem_post(rules.print_sem);
-	sem_unlink("/forks");
-	sem_unlink("/print");
-	sem_unlink("/other");
-	return (0);
-	/* if (!ph)
+	result = create_philos(&rules);
+	if (result)
 	{
-		free4(rules.forks, rules.fork_mutex, NULL, NULL);
-		return (1);
+		sem_wait(rules.print_sem);
+		printf("Philo finished with status %i\n", result);
+		sem_post(rules.print_sem);
+		return (result);
 	}
-	i = 0;
-	while (i < rules.num_phil)
-		pthread_join(ph[i++].thread, NULL);
-	destroy_mutexes(&rules, rules.num_phil);
-	free4(rules.forks, rules.fork_mutex, ph, NULL); */
+	sem_wait(rules.print_sem);
+	printf("Program finished\n");
+	sem_post(rules.print_sem);
+	unlink_semaphores();
 	return (0);
 }

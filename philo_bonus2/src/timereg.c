@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:01:28 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/29 19:25:49 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:37:54 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,10 @@ int	delta_time(struct timeval time1, struct timeval time2)
 	return (delta_s * 1000 + delta_us / 1000);
 }
 
-struct timeval	current_time(t_rules *rules)
+struct timeval	current_time(void)
 {
 	struct timeval	current_time;
 
-	if (set_time(&current_time))
-		rules->exit_all = 1;
+	set_time(&current_time);
 	return (current_time);
 }

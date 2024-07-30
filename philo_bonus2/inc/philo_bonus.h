@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/29 20:25:59 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:39:17 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include "libft.h"
 # include <semaphore.h>
 # include <sys/wait.h>
+# include <signal.h>
+# include <limits.h>
 
 typedef struct s_rules
 {
@@ -36,7 +38,6 @@ typedef struct s_rules
 	sem_t			*print_sem;
 	sem_t			*other_sem;
 	unsigned short	completed_goals;
-	int				exit_all;
 }	t_rules;
 
 typedef struct s_philo
@@ -57,7 +58,7 @@ int				parse_args(int argc, char **argv, t_rules *rules);
 
 // TIME FUNCTIONS
 int				set_time(struct timeval *time);
-struct timeval	current_time(t_rules *rules);
+struct timeval	current_time(void);
 int				delta_time(struct timeval time1, struct timeval time2);
 
 // TABLE
@@ -65,11 +66,11 @@ int				init_table(t_rules *rules);
 void			destroy_mutexes(t_rules *rules, unsigned int n_forks);
 
 // PHILOSPHER BEHAVIOUR
-t_philo			*create_philos(t_rules *rules);
+int				create_philos(t_rules *rules);
 int				check_ending(t_philo *ph, t_rules *rules);
-void			ph_eat(t_philo *ph);
-void			ph_think(t_philo *ph);
-void			ph_sleep(t_philo *ph);
+int				ph_eat(t_philo *ph);
+int				ph_think(t_philo *ph);
+int				ph_sleep(t_philo *ph);
 
 // UTILS
 void			free4(void *p1, void *p2, void *p3, void *p4);
