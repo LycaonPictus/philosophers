@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:30:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/29 21:37:40 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/30 00:44:22 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ int	main(int argc, char **argv)
 	t_rules			rules;
 	t_philo			*ph;
 
+	sem_unlink("/forks");
+	sem_unlink("/print");
+	sem_unlink("/other");
 	ph = NULL;
 	if (parse_args(argc, argv, &rules))
 		return (1);

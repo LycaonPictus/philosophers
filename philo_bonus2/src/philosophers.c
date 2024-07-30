@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:04:28 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/29 21:32:45 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/30 00:43:48 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	init_philo(t_philo *ph)
 	sem_wait(ph->print_sem);
 	printf("Hola %i, %li\n", ph->id, ph->rules->start_time.tv_sec);
 	sem_post(ph->print_sem);
+	sem_post(ph->other_sem);
 	return ;
 	ph->last_food = ph->rules->start_time;
 	ph->last_thinking = ph->rules->start_time;
@@ -67,10 +68,10 @@ t_philo	*create_philos(t_rules *rules)
 	t_philo			*ph;
 	pid_t			pid;
 
-	i = 0;
 	ph = malloc(sizeof(t_philo) * rules->num_phil);
 	if (!ph)
 		return (NULL);
+	i = 0;
 	while (i < rules->num_phil)
 	{
 		ph[i].rules = rules;
@@ -84,23 +85,22 @@ t_philo	*create_philos(t_rules *rules)
 			printf("Philo %i created\n", i + 1);
 			sem_post(rules->print_sem);
 			init_philo(&ph[i]);
-			break ;
+			return (NULL);
 		}
 		i++;
 	}
-	if (!pid)
+	sem_wait(rules->print_sem);
+	printf("All philos created\n");
+	sem_post(rules->print_sem);
+	set_time(&rules->start_time);
+	sem_post(rules->other_sem);
+	return (ph);
+	i = 0;
+	while (i < rules->num_phil)
 	{
-		set_time(&rules->start_time);
-		sem_post(rules->other_sem);
-		i = 0;
-		while (i < rules->num_phil)
-		{
-			waitpid(ph[i++].pid, NULL, 0);
-			sem_wait(rules->print_sem);
-			printf("Philo %i finished\n", i);
-			sem_post(rules->print_sem);
-		}
-		return (ph);
+		waitpid(ph[i++].pid, NULL, 0);
+		sem_wait(rules->print_sem);
+		printf("Philo %i finished\n", i);
+		sem_post(rules->print_sem);
 	}
-	return (0);
 }
