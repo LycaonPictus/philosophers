@@ -6,11 +6,11 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:06:41 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/30 18:50:25 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:21:21 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*#include <philo_bonus.h>*/#include "../inc/philo_bonus.h"
+#include <philo_bonus.h>
 
 int	ph_sleep(t_philo *ph)
 {

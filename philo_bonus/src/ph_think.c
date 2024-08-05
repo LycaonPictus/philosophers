@@ -6,11 +6,11 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:27:05 by jholland          #+#    #+#             */
-/*   Updated: 2024/08/05 11:37:19 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:21:21 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*#include <philo_bonus.h>*/#include "../inc/philo_bonus.h"
+#include <philo_bonus.h>
 
 int	ph_think(t_philo *ph)
 {

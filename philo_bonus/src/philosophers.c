@@ -6,38 +6,35 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:04:28 by jholland          #+#    #+#             */
-/*   Updated: 2024/08/05 14:18:25 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:31:59 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*#include <philo_bonus.h>*/#include "../inc/philo_bonus.h"
-
-int	start_action(t_philo *ph)
-{
-	return (ph_think(ph));
-}
+#include <philo_bonus.h>
 
 void	init_philo(t_philo *ph)
 {
 	ph->fork_sem = sem_open("/forks", O_CREAT, 0600, ph->rules->num_phil / 2);
 	ph->print_sem = sem_open("/print", O_CREAT, 0600, 1);
-	ph->other_sem = sem_open("/other", O_CREAT, 0600, 0);
-	if (!ph->fork_sem || !ph->print_sem || !ph->other_sem)
+	if (!ph->fork_sem || !ph->print_sem)
 	{
-		sem_wait(ph->print_sem);
 		write(2, "Sem error.\n", 11);
-		sem_post(ph->print_sem);
 		return ;
 	}
-	ph->last_food = ph->rules->start_time;
-	ph->last_thinking = ph->rules->start_time;
 }
 
 void	set_attributes(t_philo *ph, unsigned int index)
 {
 	ph->id = index + 1;
 	ph->meals = 0;
+	ph->last_food = ph->rules->start_time;
+	ph->last_thinking = ph->rules->start_time;
 }
+
+/* int	child(t_philo *ph, unsigned int i)
+{
+	
+} */
 
 int	create_philos(t_rules *rules)
 {
@@ -63,20 +60,18 @@ int	create_philos(t_rules *rules)
 			init_philo(&ph[i]);
 			while (1)
 			{
-				action_result = start_action(&ph[i]);
+				action_result = ph_think(&ph[i]);
 				if (action_result)
 					break ;
 				usleep(10);
 			}
 			sem_close(ph[i].fork_sem);
 			sem_close(ph[i].print_sem);
-			sem_close(ph[i].other_sem);
 			free(ph);
 			return (action_result);
 		}
 		i++;
 	}
-	sem_post(rules->other_sem);
 	i = 0;
 	while (i < rules->num_phil)
 	{

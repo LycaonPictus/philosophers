@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:30:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/24 16:36:29 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:26:19 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,15 @@ int	main(int argc, char **argv)
 	ph = create_philos(&rules);
 	if (!ph)
 	{
-		free4(rules.forks, rules.fork_mutex, NULL, NULL);
+		free(rules.forks);
+		free(rules.fork_mutex);
 		return (1);
 	}
 	i = 0;
 	while (i < rules.num_phil)
 		pthread_join(ph[i++].thread, NULL);
 	destroy_mutexes(&rules, rules.num_phil);
-	free4(rules.forks, rules.fork_mutex, ph, NULL);
+	free(rules.forks);
+	free(rules.fork_mutex);
 	return (0);
 }

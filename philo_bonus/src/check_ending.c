@@ -6,13 +6,13 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:07:46 by jholland          #+#    #+#             */
-/*   Updated: 2024/08/05 12:26:34 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:21:37 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*#include <philo_bonus.h>*/#include "../inc/philo_bonus.h"
+#include <philo_bonus.h>
 
-// Last end_post set in the main function in order to block pending prints
+// Last sem_post set in the main function in order to block pending prints
 int	check_ending(t_philo *ph, t_rules *rules)
 {
 	unsigned int	time_hungry;

@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:06:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/24 19:53:59 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:26:46 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static int	init_forks(t_rules	*rules)
 	if (!rules->forks || !rules->forks)
 	{
 		write(2, "Allocation error.\n", 18);
-		free4(rules->forks, rules->fork_mutex, NULL, NULL);
+		free(rules->forks);
+		free(rules->fork_mutex);
 		return (1);
 	}
 	while (i < rules->num_phil)
@@ -42,7 +43,8 @@ static int	init_forks(t_rules	*rules)
 		if (pthread_mutex_init(&rules->fork_mutex[i], NULL))
 		{
 			destroy_mutexes(rules, i);
-			free4(rules->forks, rules->fork_mutex, NULL, NULL);
+			free(rules->forks);
+			free(rules->fork_mutex);
 			write(2, "Mutex init error.\n", 18);
 			return (1);
 		}

@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/24 19:54:44 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:26:56 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,5 @@ int				check_ending(t_philo *ph, t_rules *rules);
 void			ph_eat(t_philo *ph);
 void			ph_think(t_philo *ph);
 void			ph_sleep(t_philo *ph);
-
-// UTILS
-void			free4(void *p1, void *p2, void *p3, void *p4);
 
 #endif

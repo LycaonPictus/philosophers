@@ -6,7 +6,7 @@ INCLUDES = -Iinc
 SRC_DIR = src
 SRC_FILES = main.c timereg.c parse_args.c ph_eat.c \
 			ph_sleep.c ph_think.c check_ending.c \
-			philosophers.c table.c utils.c
+			philosophers.c table.c
 SRC = $(addprefix $(SRC_DIR)/,$(SRC_FILES))
 
 LIBFT_DIR = lib/libft

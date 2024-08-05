@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/30 19:39:17 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:27:03 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_rules
 	unsigned short	num_meals;
 	sem_t			*fork_sem;
 	sem_t			*print_sem;
-	sem_t			*other_sem;
 	unsigned short	completed_goals;
 }	t_rules;
 
@@ -50,7 +49,6 @@ typedef struct s_philo
 	unsigned int	meals;
 	sem_t			*fork_sem;
 	sem_t			*print_sem;
-	sem_t			*other_sem;
 }	t_philo;
 
 // PARSE FUNCTIONS
@@ -71,8 +69,5 @@ int				check_ending(t_philo *ph, t_rules *rules);
 int				ph_eat(t_philo *ph);
 int				ph_think(t_philo *ph);
 int				ph_sleep(t_philo *ph);
-
-// UTILS
-void			free4(void *p1, void *p2, void *p3, void *p4);
 
 #endif
