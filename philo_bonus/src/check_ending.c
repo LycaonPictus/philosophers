@@ -6,31 +6,27 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:07:46 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/18 15:05:21 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:26:34 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+/*#include <philo_bonus.h>*/#include "../inc/philo_bonus.h"
 
-int	check_ending(t_philo_b *ph)
+// Last end_post set in the main function in order to block pending prints
+int	check_ending(t_philo *ph, t_rules *rules)
 {
-	int				time_hungry;
+	unsigned int	time_hungry;
 	struct timeval	now;
 
-	if (ph->rules->exit_all)
-		return (1);
-	now = current_time(ph->rules);
+	now = current_time();
 	time_hungry = delta_time(ph->last_food, now);
-	if (time_hungry >= ph->rules->time_to_die)
+	if (time_hungry >= rules->time_to_die)
 	{
-		ph->rules->exit_all = 1;
-		printf("%i %i died\n", delta_time(ph->rules->start_time, now), ph->id);
+		sem_wait(ph->print_sem);
+		printf("%i %i died\n", delta_time(rules->start_time, now), ph->id);
 		return (1);
 	}
-	if (ph->rules->num_meals && ph->rules->completed_goals == ph->rules->num_phil)
-	{
-		ph->rules->exit_all = 1;
-		return (1);
-	}
+	if (rules->num_meals && ph->meals == rules->num_meals)
+		return (2);
 	return (0);
 }

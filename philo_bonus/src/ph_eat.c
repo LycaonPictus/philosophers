@@ -6,49 +6,48 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:05:07 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/24 15:50:32 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:35:50 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+/*#include <philo_bonus.h>*/#include "../inc/philo_bonus.h"
 
-static void	end_and_sleep(t_philo_b *ph, struct timeval *now)
+static int	end_and_sleep(t_philo *ph)
 {
-	ph->meals++;
-	if (ph->rules->num_meals && ph->meals == ph->rules->num_meals)
-		ph->rules->completed_goals++;
+	int	sleep_return;
+
 	sem_post(ph->fork_sem);
+	if (ph->rules->num_meals)
+		ph->meals++;
+	sem_wait(ph->print_sem);
 	printf("%i %i is sleeping\n",
-		delta_time(ph->rules->start_time, *now), ph->id);
-	if (check_ending(ph, rules))
-	{
-		sem_post(ph->rules->semaphore);
-		return ;
-	}
-	sem_post(ph->rules->semaphore);
-	ph_sleep(ph);
+		delta_time(ph->rules->start_time, current_time()), ph->id);
+	sem_post(ph->print_sem);
+	if (ph->rules->num_meals && ph->meals == ph->rules->num_meals)
+		return (2);
+	sleep_return = ph_sleep(ph);
+	if (sleep_return == 1)
+		return (1);
+	return (0);
 }
 
-void	ph_eat(t_philo_b *ph)
+int	ph_eat(t_philo *ph)
 {
 	unsigned int	time_eating;
-	struct timeval	now;
+	int				check_result;
+	int				eat_result;
 
-	sem_wait(ph->rules->semaphore);
-	if (check_ending(ph, rules))
-	{
-		sem_post(ph->rules->semaphore);
-		return ;
-	}
-	now = current_time(ph->rules);
-	time_eating = delta_time(ph->last_thinking, now);
+	check_result = check_ending(ph, ph->rules);
+	if (check_result)
+		return (check_result);
+	set_time(&ph->last_food);
+	time_eating = delta_time(ph->last_thinking, ph->last_food);
 	if (time_eating < ph->rules->time_to_eat)
 	{
-		set_time(&ph->last_food);
-		sem_post(ph->rules->semaphore);
 		usleep(10);
-		ph_eat(ph);
+		eat_result = ph_eat(ph);
+		return (eat_result);
 	}
 	else
-		end_and_sleep(ph, &now);
+		return (end_and_sleep(ph));
 }

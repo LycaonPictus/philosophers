@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:04:28 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/30 21:10:18 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:18:25 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	start_action(t_philo *ph)
 
 void	init_philo(t_philo *ph)
 {
-	ph->fork_sem = sem_open("/forks", O_CREAT);
-	ph->print_sem = sem_open("/print", O_CREAT);
-	ph->other_sem = sem_open("/other", O_CREAT);
+	ph->fork_sem = sem_open("/forks", O_CREAT, 0600, ph->rules->num_phil / 2);
+	ph->print_sem = sem_open("/print", O_CREAT, 0600, 1);
+	ph->other_sem = sem_open("/other", O_CREAT, 0600, 0);
 	if (!ph->fork_sem || !ph->print_sem || !ph->other_sem)
 	{
 		sem_wait(ph->print_sem);
@@ -35,9 +35,6 @@ void	init_philo(t_philo *ph)
 
 void	set_attributes(t_philo *ph, unsigned int index)
 {
-	t_rules	*rules;
-
-	rules = ph->rules;
 	ph->id = index + 1;
 	ph->meals = 0;
 }
@@ -52,7 +49,7 @@ int	create_philos(t_rules *rules)
 
 	ph = malloc(sizeof(t_philo) * rules->num_phil);
 	if (!ph)
-		return (0);
+		return (1);
 	i = 0;
 	while (i < rules->num_phil)
 	{
@@ -69,7 +66,11 @@ int	create_philos(t_rules *rules)
 				action_result = start_action(&ph[i]);
 				if (action_result)
 					break ;
+				usleep(10);
 			}
+			sem_close(ph[i].fork_sem);
+			sem_close(ph[i].print_sem);
+			sem_close(ph[i].other_sem);
 			free(ph);
 			return (action_result);
 		}
@@ -81,29 +82,23 @@ int	create_philos(t_rules *rules)
 	{
 		waitpid(-1, &catched_result, 0);
 		catched_result = WEXITSTATUS(catched_result);
-		sem_wait(rules->print_sem);
-		printf("\tEVENT CATCHED (%i)\n", catched_result);
-		sem_post(rules->print_sem);
 		if (catched_result == 1)
 		{
 			i = 0;
 			while (i < rules->num_phil)
-			{
-				sem_wait(rules->print_sem);
-				printf("Killing philosopher %i\n", ph[i].id);
-				sem_post(rules->print_sem);
 				kill(ph[i++].pid, SIGKILL);
-			}
+			sem_post(rules->print_sem);
 			free(ph);
 			return (0);
 		}
-		if (catched_result == 2)
+		else if (catched_result == 2)
 			rules->completed_goals++;
-		if (rules->num_meals && rules->completed_goals == rules->num_meals)
+		if (rules->num_meals && rules->completed_goals == rules->num_phil)
 		{
 			sem_wait(rules->print_sem);
-			printf(" All philosophers have eaten %i times.\n", rules->num_meals);
+			printf("- All philosophers have eaten %i times -\n", rules->num_meals);
 			sem_post(rules->print_sem);
+			free(ph);
 			return (0);
 		}
 		i++;

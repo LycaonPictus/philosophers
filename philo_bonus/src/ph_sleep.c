@@ -6,27 +6,28 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:06:41 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/24 15:50:32 by jholland         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:50:25 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+/*#include <philo_bonus.h>*/#include "../inc/philo_bonus.h"
 
-void	ph_sleep(t_philo_b *ph)
+int	ph_sleep(t_philo *ph)
 {
 	unsigned int	time_sleeping;
+	int				check_result;
+	int				sleep_result;
 
-	sem_wait(ph->rules->semaphore);
-	if (check_ending(ph, rules))
-	{
-		sem_post(ph->rules->semaphore);
-		return ;
-	}
-	sem_post(ph->rules->semaphore);
-	time_sleeping = delta_time(ph->last_food, current_time(ph->rules));
+	check_result = check_ending(ph, ph->rules);
+	if (check_result)
+		return (check_result);
+	time_sleeping = delta_time(ph->last_food, current_time());
 	if (time_sleeping < ph->rules->time_to_sleep)
 	{
 		usleep(10);
-		ph_sleep(ph);
+		sleep_result = ph_sleep(ph);
+		if (sleep_result)
+			return (sleep_result);
 	}
+	return (0);
 }

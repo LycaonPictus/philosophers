@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:07:46 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/24 15:54:25 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:43:04 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_ending(t_philo *ph, t_rules *rules)
 	if (rules->num_meals && rules->completed_goals == rules->num_phil)
 	{
 		pthread_mutex_lock(&rules->print_mutex);
-		printf("- All philosophers has eaten %i times -\n", rules->num_meals);
+		printf("- All philosophers have eaten %i times -\n", rules->num_meals);
 		pthread_mutex_unlock(&rules->print_mutex);
 		rules->exit_all = 1;
 		return (1);

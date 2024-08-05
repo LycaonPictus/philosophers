@@ -6,48 +6,28 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:27:05 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/24 15:50:32 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/05 11:37:19 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+/*#include <philo_bonus.h>*/#include "../inc/philo_bonus.h"
 
-static void	start_eating(t_philo_b *ph, struct timeval *now)
+int	ph_think(t_philo *ph)
 {
-	set_time(&ph->last_thinking);
-	printf("%i %i is eating\n",
-		delta_time(ph->rules->start_time, *now), ph->id);
-	ph_eat(ph);
-}
-
-static void	ph_take_fork(t_philo_b *ph)
-{
-	struct timeval	now;
-
-	now = current_time(ph->rules);
-	printf("%i %i has taken a fork\n",
-		delta_time(ph->rules->start_time, now), ph->id);
-}
-
-static void	take_available_forks(t_philo_b *ph)
-{
-	struct timeval	now;
+	int	check_result;
 
 	sem_wait(ph->fork_sem);
-	now = current_time(ph->rules);
-	ph_take_fork(ph);
-	ph_take_fork(ph);
-	start_eating(ph, &now);
-}
-
-void	ph_think(t_philo_b *ph)
-{
-	sem_wait(ph->rules->semaphore);
-	if (check_ending(ph, rules))
-	{
-		sem_post(ph->rules->semaphore);
-		return ;
-	}
-	sem_post(ph->rules->semaphore);
-	take_available_forks(ph);
+	check_result = check_ending(ph, ph->rules);
+	if (check_result)
+		return (check_result);
+	set_time(&ph->last_thinking);
+	sem_wait(ph->print_sem);
+	printf("%i %i has taken a fork\n",
+		delta_time(ph->rules->start_time, ph->last_thinking), ph->id);
+	printf("%i %i has taken a fork\n",
+		delta_time(ph->rules->start_time, ph->last_thinking), ph->id);
+	printf("%i %i is eating\n",
+		delta_time(ph->rules->start_time, ph->last_thinking), ph->id);
+	sem_post(ph->print_sem);
+	return (ph_eat(ph));
 }

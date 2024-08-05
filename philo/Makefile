@@ -29,10 +29,21 @@ $(NAME): $(OBJ)
 
 clean:
 	@rm -rf $(OBJ)
+	@rm -rf $(LEAK_OUTPUT) $(RACE_OUTPUT)
 
 fclean: clean
 	@rm -rf $(NAME)
 
 re: fclean all
+
+PARAMS = 4 400 200 200 5
+LEAK_OUTPUT = leaks.txt
+RACE_OUTPUT = races.txt
+
+leaks: all
+	@valgrind --leak-check=full --show-leak-kinds=all -s ./$(NAME) $(PARAMS) 2> $(LEAK_OUTPUT)
+
+races: all
+	@valgrind --tool=helgrind -s ./$(NAME) $(PARAMS) 2> $(RACE_OUTPUT)
 
 .PHONY: all clean fclean re
