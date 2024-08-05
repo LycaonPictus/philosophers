@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:04:28 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/24 16:15:44 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:42:37 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,7 @@ t_philo	*create_philos(t_rules *rules)
 		if (i == 0)
 			pthread_mutex_lock(&rules->mutex);
 		if (pthread_create(&ph[i].thread, NULL, init_philo, &ph[i]))
-		{
-			write(2, "Error: pthread failure.\n", 24);
 			return (NULL);
-		}
 		i++;
 	}
 	set_time(&rules->start_time);

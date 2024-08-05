@@ -36,7 +36,7 @@ fclean: clean
 
 re: fclean all
 
-PARAMS = 4 400 200 200 5
+PARAMS = 4 201 200 200 10
 LEAK_OUTPUT = leaks.txt
 RACE_OUTPUT = races.txt
 

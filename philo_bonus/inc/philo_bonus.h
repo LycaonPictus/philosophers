@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:18:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/08/05 15:27:03 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/05 21:24:11 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ typedef struct s_rules
 	unsigned short	time_to_eat;
 	unsigned short	time_to_sleep;
 	unsigned short	num_meals;
-	sem_t			*fork_sem;
 	sem_t			*print_sem;
 	unsigned short	completed_goals;
 }	t_rules;

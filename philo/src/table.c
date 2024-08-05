@@ -6,13 +6,13 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:06:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/08/05 15:26:46 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:42:03 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-void	destroy_mutexes(t_rules *rules, unsigned int n_forks)
+static void	destroy_mutexes(t_rules *rules, unsigned int n_forks)
 {
 	unsigned int	i;
 
@@ -29,10 +29,8 @@ static int	init_forks(t_rules	*rules)
 
 	i = 0;
 	rules->forks = malloc(sizeof(int) * rules->num_phil);
-	rules->fork_mutex = malloc(sizeof(pthread_mutex_t) * rules->num_phil);
 	if (!rules->forks || !rules->forks)
 	{
-		write(2, "Allocation error.\n", 18);
 		free(rules->forks);
 		free(rules->fork_mutex);
 		return (1);
@@ -45,7 +43,6 @@ static int	init_forks(t_rules	*rules)
 			destroy_mutexes(rules, i);
 			free(rules->forks);
 			free(rules->fork_mutex);
-			write(2, "Mutex init error.\n", 18);
 			return (1);
 		}
 		i++;
@@ -56,14 +53,10 @@ static int	init_forks(t_rules	*rules)
 static int	init_mutex(t_rules *rules)
 {
 	if (pthread_mutex_init(&rules->mutex, NULL))
-	{
-		write(2, "Init mutex failed.\n", 19);
 		return (1);
-	}
 	if (pthread_mutex_init(&rules->print_mutex, NULL))
 	{
 		pthread_mutex_destroy(&rules->mutex);
-		write(2, "Init mutex failed.\n", 19);
 		return (1);
 	}
 	return (0);
