@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:30:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/08/05 15:26:19 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/06 20:41:22 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	main(int argc, char **argv)
 	while (i < rules.num_phil)
 		pthread_join(ph[i++].thread, NULL);
 	destroy_mutexes(&rules, rules.num_phil);
+	free(ph);
 	free(rules.forks);
 	free(rules.fork_mutex);
 	return (0);

@@ -6,13 +6,13 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:06:04 by jholland          #+#    #+#             */
-/*   Updated: 2024/08/05 16:42:03 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/06 19:43:48 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-static void	destroy_mutexes(t_rules *rules, unsigned int n_forks)
+void	destroy_mutexes(t_rules *rules, unsigned int n_forks)
 {
 	unsigned int	i;
 
@@ -29,6 +29,7 @@ static int	init_forks(t_rules	*rules)
 
 	i = 0;
 	rules->forks = malloc(sizeof(int) * rules->num_phil);
+	rules->fork_mutex = malloc(sizeof(pthread_mutex_t) * rules->num_phil);
 	if (!rules->forks || !rules->forks)
 	{
 		free(rules->forks);

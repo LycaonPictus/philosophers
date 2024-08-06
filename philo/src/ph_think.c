@@ -6,7 +6,7 @@
 /*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:27:05 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/24 17:12:04 by jholland         ###   ########.fr       */
+/*   Updated: 2024/08/06 20:54:09 by jholland         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static void	start_eating(t_philo *ph)
 {
+	if (check_ending(ph, ph->rules))
+		return ;
 	pthread_mutex_lock(&ph->rules->print_mutex);
 	printf("%i %i is eating\n",
 		delta_time(ph->rules->start_time, ph->last_thinking), ph->id);
@@ -30,6 +32,8 @@ static void	ph_take_fork(t_philo *ph, int *fork_ptr)
 	else if (fork_ptr == ph->right_fork && *fork_ptr == 0)
 		*fork_ptr = 1;
 	else
+		return ;
+	if (check_ending(ph, ph->rules))
 		return ;
 	pthread_mutex_lock(&ph->rules->print_mutex);
 	printf("%i %i has taken a fork\n",
@@ -68,12 +72,7 @@ static void	take_available_forks(t_philo *ph)
 
 void	ph_think(t_philo *ph)
 {
-	pthread_mutex_lock(&ph->rules->mutex);
 	if (check_ending(ph, ph->rules))
-	{
-		pthread_mutex_unlock(&ph->rules->mutex);
 		return ;
-	}
-	pthread_mutex_unlock(&ph->rules->mutex);
 	take_available_forks(ph);
 }
